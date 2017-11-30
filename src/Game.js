@@ -30,10 +30,15 @@ export default class Game extends Component {
       this.text.rotation += 0.5;
     }, 300);
 
-    // window.requestAnimationFrame(this.update());
+    // // this.updatey = window.requestAnimationFrame(this.update());
+    // var _this = this;
+    // var grah = this.update;
+    // var requestId = window.requestAnimFrame(grah());]
+    this.update();
   }
 
   update() {
+    console.log("can't get requestAnimationFrame working from class..");
     /*
     let then = 0;
     const update = () => {

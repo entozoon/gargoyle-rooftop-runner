@@ -14,5 +14,17 @@ export class Hero {
       x: 300,
       y: 300
     };
+
+    document.addEventListener('keydown', e => {
+      this.jamp();
+    });
+  }
+
+  jamp() {
+    this.hero.position.y -= 30;
+  }
+
+  update() {
+    // Might not be necessary much, as the engine handles all rendering updates
   }
 }
