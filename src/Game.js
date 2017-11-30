@@ -29,6 +29,24 @@ export default class Game extends Component {
     setInterval(() => {
       this.text.rotation += 0.5;
     }, 300);
+
+    // window.requestAnimationFrame(this.update());
+  }
+
+  update() {
+    /*
+    let then = 0;
+    const update = () => {
+      let dt = Date.now() - then;
+      then = Date.now();
+      blocks.forEach(block => {
+        block.update(dt);
+      });
+      requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+*/
+    // window.requestAnimationFrame(this.update());
   }
 
   render() {
