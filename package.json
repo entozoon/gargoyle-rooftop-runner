@@ -18,8 +18,7 @@
     "react-start": "react-scripts start",
     "prebuild": "del-cli docs",
     "build": "react-scripts build && ren build docs",
-    "predeploy": "echo no need, push to master (/docs)",
-    "deploy": "echo no need, push to master (/docs)",
+    "deploy": "echo no need, build and push to master (/docs)",
     "compile-css": "node-sass src --output src/ --output-style compressed --watch",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

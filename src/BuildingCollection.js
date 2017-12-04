@@ -4,7 +4,7 @@ import Building from './Building';
 export class BuildingCollection {
   constructor() {
     this.collection = [];
-    this.texture = new Pixi.engine.Texture.fromImage('assets/test.png');
+    this.texture = new Pixi.engine.Texture.fromImage('./assets/test.png');
   }
 
   shouldCreateNewBuilding() {
