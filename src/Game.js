@@ -34,11 +34,12 @@ export default class Game extends Component {
     // var _this = this;
     // var grah = this.update;
     // var requestId = window.requestAnimFrame(grah());]
-    this.update();
+    // this.update();
+
+    this.animationFrame = window.requestAnimationFrame(this.update.bind(this));
   }
 
   update() {
-    console.log("can't get requestAnimationFrame working from class..");
     /*
     let then = 0;
     const update = () => {
@@ -52,6 +53,7 @@ export default class Game extends Component {
     requestAnimationFrame(update);
 */
     // window.requestAnimationFrame(this.update());
+    window.requestAnimationFrame(this.update.bind(this));
   }
 
   render() {
