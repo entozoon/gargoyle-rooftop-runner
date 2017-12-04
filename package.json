@@ -16,7 +16,8 @@
   "scripts": {
     "start": "npm-run-all --parallel react-start compile-css",
     "react-start": "react-scripts start",
-    "build": "react-scripts build && move build docs",
+    "prebuild": "del-cli docs",
+    "build": "react-scripts build && ren build docs",
     "predeploy": "echo no need, push to master (/docs)",
     "deploy": "echo no need, push to master (/docs)",
     "compile-css": "node-sass src --output src/ --output-style compressed --watch",
