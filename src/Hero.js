@@ -2,6 +2,9 @@ import Pixi from './PixiCreate';
 
 export class Hero {
   constructor() {
+    this.speed = 0.5;
+    this.temporaryTicker = 0;
+
     this.hero = new Pixi.engine.Text('G', {
       fontFamily: 'Verdana',
       fontSize: 24,
@@ -24,7 +27,9 @@ export class Hero {
     this.hero.position.y -= 30;
   }
 
-  update() {
-    // Might not be necessary much, as the engine handles all rendering updates
+  update(dt) {
+    // Might not be necessary much, as the engine handles all rendering updates, but it does indeed run
+
+    this.speed = Math.sin(++this.temporaryTicker / 100) + 1;
   }
 }

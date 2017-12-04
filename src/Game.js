@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import Pixi from './PixiCreate';
 import { Hero } from './Hero';
+import { BuildingCollection } from './BuildingCollection';
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
+    this.then = 0;
 
     this.hero = new Hero();
+    this.buildingCollection = new BuildingCollection();
 
     this.text = new Pixi.engine.Text('This is a PixiJS text', {
       fontFamily: 'Verdana',
@@ -40,19 +43,12 @@ export default class Game extends Component {
   }
 
   update() {
-    /*
-    let then = 0;
-    const update = () => {
-      let dt = Date.now() - then;
-      then = Date.now();
-      blocks.forEach(block => {
-        block.update(dt);
-      });
-      requestAnimationFrame(update);
-    };
-    requestAnimationFrame(update);
-*/
-    // window.requestAnimationFrame(this.update());
+    let dt = Date.now() - this.then;
+    this.then = Date.now();
+
+    this.hero.update(dt);
+    this.buildingCollection.update(dt, this.hero);
+
     window.requestAnimationFrame(this.update.bind(this));
   }
 
