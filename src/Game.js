@@ -11,27 +11,24 @@ export default class Game extends Component {
     this.hero = new Hero();
     this.buildingCollection = new BuildingCollection();
 
-    this.text = new Pixi.engine.Text('This is a PixiJS text', {
+    this.text = new Pixi.engine.Text('Score:', {
       fontFamily: 'Verdana',
       fontSize: 24,
       fill: 0xff1010,
       align: 'center'
     });
+    this.text.position = { x: 0, y: 0 };
 
     Pixi.app.stage.addChild(this.text);
 
-    Pixi.app.ticker.add(dt => {
-      this.text.rotation += 0.01;
-    });
+    // Could like, embiggen the score as it's going up and anything stuff like that
+    // Pixi.app.ticker.add(dt => {
+    //   this.text.rotation += 0.01;
+    // });
   }
 
   componentDidMount() {
     document.getElementById('game').appendChild(Pixi.app.view);
-
-    // legit!
-    setInterval(() => {
-      this.text.rotation += 0.5;
-    }, 300);
 
     // // this.updatey = window.requestAnimationFrame(this.update());
     // var _this = this;
