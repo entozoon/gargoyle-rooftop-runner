@@ -2,12 +2,14 @@ import Pixi from './PixiCreate';
 
 export class Hero {
   constructor() {
-    this.speed = 0.5;
+    this.speed = 0.5; // SLOW
+    // this.speed = 0; // STOP EVERYTHING
     this.gravity = 0.2;
     this.jumpVelocity = 10;
     this.velocity = { y: 0, x: 0 };
     this.temporaryTicker = 0;
     this.onFloor = false;
+    this._dead = false;
 
     this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
 
@@ -76,6 +78,14 @@ export class Hero {
     return this.sprite.height;
   }
 
+  set dead(dead) {
+    this._dead = dead;
+    if (dead) {
+      this.speed = 0;
+      console.log('Game over.');
+    }
+  }
+
   // set position(position) {
   //   this._position = position;
   //   this.sprite.position = position;
@@ -113,8 +123,16 @@ export class Hero {
     this.onFloor = false;
 
     buildings.forEach(building => {
-      // Vaguely bounding-boxy
       if (
+        // Smashing into the side of a building, ya ded
+        (this.y + this.height > building.y && this.x > building.x - this.width) ||
+        // Fallen all the way down, y'also ded
+        this.y > Pixi.height
+      ) {
+        this.dead = true;
+        return;
+      } else if (
+        // Floor - vaguely bounding-boxy
         this.y + this.height > building.y &&
         this.x + this.width > building.x &&
         this.x < building.x + building.width
@@ -129,8 +147,6 @@ export class Hero {
     // Might not be necessary much, as the engine handles all rendering updates, but it does indeed run
 
     // this.speed = Math.sin(++this.temporaryTicker / 100) + 1;
-    this.speed = 0.5; // SLOW
-    // this.speed = 0; // STOP EVERYTHING
     this.pose();
     this.forces();
   }

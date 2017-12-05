@@ -11,7 +11,7 @@ export default class Building {
     this.sprite.anchor.x = 0;
     this.sprite.anchor.y = 0;
     this.position = this.sprite.position = {
-      x: Pixi.app.renderer.screen.width,
+      x: Pixi.width,
       y: 200
     };
     this.sprite.scale = { x: 1, y: 1 };

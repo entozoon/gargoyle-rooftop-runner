@@ -8,8 +8,11 @@ class Pixi {
       height: 600
     });
   }
-  jaff() {
-    console.log('jaffffff');
+  get width() {
+    return this.app.renderer.screen.width;
+  }
+  get height() {
+    return this.app.renderer.screen.height;
   }
 }
 // Always give the same the instance when imported!
