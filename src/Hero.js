@@ -2,11 +2,9 @@ import Pixi from './PixiCreate';
 
 export class Hero {
   constructor() {
-    this.speed = 0.5; // SLOW
-    // this.speed = 0; // STOP EVERYTHING
     this.gravity = 0.2;
     this.jumpVelocity = 10;
-    this.velocity = { y: 0, x: 0 };
+    this.velocity = { y: 0, x: 0.5 };
     this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
@@ -25,7 +23,7 @@ export class Hero {
 
     this.spriteTextures = {};
     // this.sprites = {};
-    ['run', 'jump'].forEach((pose, i) => {
+    ['run', 'jump', 'dead'].forEach((pose, i) => {
       this.spriteTextures[pose] = new Pixi.engine.Texture(this.texture, {
         x: i * this.spriteSize,
         y: 0,
@@ -78,10 +76,13 @@ export class Hero {
     return this.sprite.height;
   }
 
+  get dead() {
+    return this._dead;
+  }
   set dead(dead) {
     this._dead = dead;
     if (dead) {
-      this.speed = 0;
+      this.velocity.x = 0;
       console.log('Game over.');
     }
   }
@@ -95,7 +96,9 @@ export class Hero {
   // }
 
   pose() {
-    if (this.velocity.y < 0) {
+    if (this.dead) {
+      this._pose = 'dead';
+    } else if (this.velocity.y < 0) {
       this._pose = 'jump';
     } else {
       this._pose = 'run';
@@ -144,9 +147,9 @@ export class Hero {
   }
 
   update(dt) {
-    // Might not be necessary much, as the engine handles all rendering updates, but it does indeed run
+    // Isn't necessary much, as the engine handles all rendering updates
 
-    // this.speed = Math.sin(++this.temporaryTicker / 100) + 1;
+    // this.velocity.x = Math.sin(++this.temporaryTicker / 100) + 1;
     this.pose();
     this.forces();
   }

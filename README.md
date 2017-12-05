@@ -12,6 +12,10 @@ Note: We need a leaderboard, that has to be a thing.
 		npm start
 
 ## Deploy
-		npm run deploy
 
+		npm run deploy
 		(push to master as normal)
+
+## Future Ideas
+
+* Free running mode - run left and right, as fast as you like after a crazy boost. Why not? I've built it with legit velocities..
