@@ -17,7 +17,7 @@
     "start": "npm-run-all --parallel react-start compile-css",
     "kanban": "readme-kanban-board",
     "react-start": "react-scripts start",
-    "prebuild": "del-cli docs",
+    "prebuild": "del-cli docs && npm run kanban",
     "build": "react-scripts build && ren build docs",
     "deploy": "echo no need, build and push to master (/docs)",
     "compile-css": "node-sass src --output src/ --output-style compressed --watch",
