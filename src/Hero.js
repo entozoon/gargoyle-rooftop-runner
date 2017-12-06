@@ -3,8 +3,8 @@ import Collisions from './Collisions';
 
 export class Hero {
   constructor() {
-    this.gravity = 0.05;
-    this.jumpVelocity = -0.5;
+    this.gravity = 0.03;
+    this.jumpVelocity = -1;
     // this.jumpMaxVelocity = 200;
     this.jumpMaxTimer = 0;
     this.jumpMaxTime = 500;
@@ -15,7 +15,7 @@ export class Hero {
     this.onFloor = false;
     this._dead = false;
     this.collisions = new Collisions();
-    this.isJumping = false;
+    this._jumping = false;
 
     this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
 
@@ -64,17 +64,30 @@ export class Hero {
     this.y = 0;
 
     // Interaction
+    // document.addEventListener('keydown', e => {
+    //   e.preventDefault(); // brutal but, stop paging
+    //   if (this.onFloor && !this.dead) {
+    //     this.jumping = true;
+    //     this.jump();
+    //     let keydown = e;
+    //     document.addEventListener('keyup', e => {
+    //       if (e.keyCode == keydown.keyCode) {
+    //         this.jumping = false;
+    //       }
+    //     });
+    //   }
+    // });
+
     document.addEventListener('keydown', e => {
-      e.preventDefault(); // brutal but, stop paging
-      if (this.onFloor && !this.dead) {
-        this.isJumping = true;
-        this.jump();
-        let keydown = e;
-        document.addEventListener('keyup', e => {
-          if (e.keyCode == keydown.keyCode) {
-            this.isJumping = false;
-          }
-        });
+      // Space
+      if (e.keyCode == 32 && !this.jumping) {
+        e.preventDefault(); // brutal but, stop paging
+        this.jumping = true;
+      }
+    });
+    document.addEventListener('keyup', e => {
+      if (e.keyCode == 32) {
+        this.jumping = false;
       }
     });
   }
@@ -131,31 +144,46 @@ export class Hero {
     this.sprite.texture = this.spriteTextures[this._pose];
   }
 
-  jump() {
-    // if (this.dead || !this.onFloor) return;
-    // this.velocity.y = -this.jumpVelocity;
+  get jumping() {
+    return this._jumping;
   }
-  jumping(dt) {
-    if (this.isJumping) {
-      this.jumpMaxTimer += dt;
 
-      // Don't use dt here, with velocity.. just in forces when it shifts the actual .y
-      if (this.jumpMaxTimer > this.jumpMaxTime) {
-        this.jumpMaxTimer = 0;
-        this.isJumping = false;
-        return;
-      }
-      //
-      // if (this.velocity.y < -this.jumpMaxVelocity) {
-      //   return;
-      // }
-      // // this.velocity.y -= this.jumpVelocity;
-      // this.velocity.y = this.jumpVelocity;
+  set jumping(jumping) {
+    this._jumping = jumping;
 
+    if (jumping) {
+      if (this.dead || !this.onFloor) return;
       this.velocity.y = this.jumpVelocity;
-      // console.log(this.velocity.y);
+    } else if (this.velocity.y < 0) {
+      this.velocity.y = 0;
     }
   }
+
+  stopJump() {
+    this.velocity.y = 0;
+  }
+
+  // jumping(dt) {
+  //   if (this.isJumping) {
+  //     this.jumpMaxTimer += dt;
+  //
+  //     // Don't use dt here, with velocity.. just in forces when it shifts the actual .y
+  //     if (this.jumpMaxTimer > this.jumpMaxTime) {
+  //       this.jumpMaxTimer = 0;
+  //       // this.isJumping = false;
+  //       return;
+  //     }
+  //     //
+  //     // if (this.velocity.y < -this.jumpMaxVelocity) {
+  //     //   return;
+  //     // }
+  //     // // this.velocity.y -= this.jumpVelocity;
+  //     // this.velocity.y = this.jumpVelocity;
+  //
+  //     // this.velocity.y = this.jumpVelocity;
+  //     // console.log(this.velocity.y);
+  //   }
+  // }
 
   forces(dt) {
     // Hitting floor while moving downward = stop
@@ -179,7 +207,7 @@ export class Hero {
 
       if (this.collisions.isUnderfoot(this, building)) {
         this.onFloor = true;
-        // this.isJumping = false;
+        // this.jumping = false;
         // if (this.dead) return;
         // If jaffing down to the floor, round into it
         if (this.velocity.y > 0) {
@@ -211,7 +239,6 @@ export class Hero {
 
     // this.velocity.x = Math.sin(++this.temporaryTicker / 100) + 1;
     this.pose();
-    this.jumping(dt);
     this.forces(dt);
     this.acceleration(dt);
   }
