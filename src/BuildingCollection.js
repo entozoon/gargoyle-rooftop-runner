@@ -5,10 +5,35 @@ export class BuildingCollection {
   constructor() {
     this.collection = [];
     this.texture = new Pixi.engine.Texture.fromImage('./assets/test.png');
+
+    this.createPlatform();
   }
 
   get rightmostBuilding() {
     return this.collection[this.collection.length - 1];
+  }
+
+  createPlatform() {
+    let offscreenForCaching = new Building({
+      texture: this.texture,
+      width: 10,
+      height: 10,
+      position: {
+        x: 0,
+        y: Pixi.height * 2
+      }
+    });
+    this.collection.push(offscreenForCaching);
+
+    let platform = new Building({
+      texture: this.texture,
+      width: Pixi.width * 2,
+      position: {
+        x: 0,
+        y: Pixi.height * 0.75
+      }
+    });
+    this.collection.push(platform);
   }
 
   shouldCreateNewBuilding() {
@@ -23,7 +48,6 @@ export class BuildingCollection {
       gapMax = 300;
 
     // Doesn't use gap min yet!
-    console.log(this.rightmostBuilding.x);
     if (
       // If rightmost building is onscreen
       this.rightmostBuilding.x < Pixi.width &&
@@ -74,6 +98,6 @@ export class BuildingCollection {
       }
     });
 
-    hero.collisions(this.collection);
+    hero.collisionHandler(this.collection);
   }
 }

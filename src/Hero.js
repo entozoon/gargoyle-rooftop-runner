@@ -1,4 +1,5 @@
 import Pixi from './PixiCreate';
+import Collisions from './Collisions';
 
 export class Hero {
   constructor() {
@@ -8,6 +9,7 @@ export class Hero {
     this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
+    this.collisions = new Collisions();
 
     this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
 
@@ -52,16 +54,20 @@ export class Hero {
 
     Pixi.app.stage.addChild(this.sprite);
 
-    this.position = { x: 0, y: 0 };
-    this.sprite.position = this.position;
+    this.x = Pixi.width * 0.1;
+    this.y = 0;
 
     document.addEventListener('keydown', e => {
-      this.jamp();
+      this.jump();
     });
   }
 
-  set y(y) {
-    this.sprite.position.y = y;
+  // I should really be currying this junk
+  set y(value) {
+    this.sprite.position.y = value;
+  }
+  set x(value) {
+    this.sprite.position.x = value;
   }
   get y() {
     return this.sprite.position.y;
@@ -82,8 +88,9 @@ export class Hero {
   set dead(dead) {
     this._dead = dead;
     if (dead) {
+      this.velocity.y = 0;
       this.velocity.x = 0;
-      console.log('Game over.');
+      console.log('Game over');
     }
   }
 
@@ -107,13 +114,14 @@ export class Hero {
     this.sprite.texture = this.spriteTextures[this._pose];
   }
 
-  jamp() {
+  jump() {
+    if (this.dead || !this.onFloor) return;
     this.velocity.y = -this.jumpVelocity;
   }
 
   forces() {
-    // Platform
-    if (this.onFloor) {
+    // Hitting floor while moving downward = stop
+    if (this.onFloor && this.velocity.y > 0) {
       this.velocity.y = 0;
       return;
     }
@@ -122,26 +130,33 @@ export class Hero {
     this.y += this.velocity.y;
   }
 
-  collisions(buildings) {
-    this.onFloor = false;
+  // collisionHandler
+  // @param  collection  e.g. Buildings
+  collisionHandler(collection) {
+    if (this.dead) return;
 
-    buildings.forEach(building => {
-      if (
-        // Smashing into the side of a building, ya ded
-        (this.y + this.height > building.y && this.x > building.x - this.width) ||
-        // Fallen all the way down, y'also ded
-        this.y > Pixi.height
-      ) {
-        this.dead = true;
-        return;
-      } else if (
-        // Floor - vaguely bounding-boxy
-        this.y + this.height > building.y &&
-        this.x + this.width > building.x &&
-        this.x < building.x + building.width
-      ) {
+    this.onFloor = false;
+    collection.forEach((building, i) => {
+      // if (i > 0) return; // FORCE ONLY LEFTMOST BUILDING COLLISIONS
+
+      if (this.collisions.isUnderfoot(this, building)) {
         this.onFloor = true;
-        return;
+        // if (this.dead) return;
+        // If jaffing down to the floor, round into it
+        if (this.velocity.y > 0) {
+          this.y = building.y - this.height;
+        }
+      } else {
+        if (
+          // !this.onFloor &&
+          this.collisions.smashingIntoObject(this, building) ||
+          this.collisions.fallenThroughFloor(this)
+        ) {
+          this.dead = true;
+        } else {
+          // no floor underfoot of this particular object, not dead
+          // console.log('in air');
+        }
       }
     });
   }
