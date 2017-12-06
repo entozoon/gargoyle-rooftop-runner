@@ -15,6 +15,7 @@
   },
   "scripts": {
     "start": "npm-run-all --parallel react-start compile-css",
+    "kanban": "readme-kanban-board",
     "react-start": "react-scripts start",
     "prebuild": "del-cli docs",
     "build": "react-scripts build && ren build docs",
@@ -24,6 +25,8 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "gh-pages": "^1.1.0"
+    "del-cli": "^1.1.0",
+    "gh-pages": "^1.1.0",
+    "readme-kanban-board": "^1.4.0"
   }
 }
