@@ -64,7 +64,7 @@ export class BuildingCollection {
   }
 
   createNewBuilding() {
-    console.log('createNewBuilding');
+    // console.log('createNewBuilding');
     let building = new Building({
       texture: this.texture
     });

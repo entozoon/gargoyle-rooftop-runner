@@ -3,13 +3,19 @@ import Collisions from './Collisions';
 
 export class Hero {
   constructor() {
-    this.gravity = 0.2;
-    this.jumpVelocity = 10;
+    this.gravity = 0.05;
+    this.jumpVelocity = -0.5;
+    // this.jumpMaxVelocity = 200;
+    this.jumpMaxTimer = 0;
+    this.jumpMaxTime = 500;
     this.velocity = { y: 0, x: 0.5 };
+    this.floorAcceleration = 0.0001;
+    this.maxVelocity = 1;
     this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
     this.collisions = new Collisions();
+    this.isJumping = false;
 
     this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
 
@@ -57,8 +63,19 @@ export class Hero {
     this.x = Pixi.width * 0.1;
     this.y = 0;
 
+    // Interaction
     document.addEventListener('keydown', e => {
-      this.jump();
+      e.preventDefault(); // brutal but, stop paging
+      if (this.onFloor && !this.dead) {
+        this.isJumping = true;
+        this.jump();
+        let keydown = e;
+        document.addEventListener('keyup', e => {
+          if (e.keyCode == keydown.keyCode) {
+            this.isJumping = false;
+          }
+        });
+      }
     });
   }
 
@@ -115,11 +132,32 @@ export class Hero {
   }
 
   jump() {
-    if (this.dead || !this.onFloor) return;
-    this.velocity.y = -this.jumpVelocity;
+    // if (this.dead || !this.onFloor) return;
+    // this.velocity.y = -this.jumpVelocity;
+  }
+  jumping(dt) {
+    if (this.isJumping) {
+      this.jumpMaxTimer += dt;
+
+      // Don't use dt here, with velocity.. just in forces when it shifts the actual .y
+      if (this.jumpMaxTimer > this.jumpMaxTime) {
+        this.jumpMaxTimer = 0;
+        this.isJumping = false;
+        return;
+      }
+      //
+      // if (this.velocity.y < -this.jumpMaxVelocity) {
+      //   return;
+      // }
+      // // this.velocity.y -= this.jumpVelocity;
+      // this.velocity.y = this.jumpVelocity;
+
+      this.velocity.y = this.jumpVelocity;
+      // console.log(this.velocity.y);
+    }
   }
 
-  forces() {
+  forces(dt) {
     // Hitting floor while moving downward = stop
     if (this.onFloor && this.velocity.y > 0) {
       this.velocity.y = 0;
@@ -127,7 +165,7 @@ export class Hero {
     }
 
     this.velocity.y += this.gravity;
-    this.y += this.velocity.y;
+    this.y += this.velocity.y * dt;
   }
 
   // collisionHandler
@@ -141,6 +179,7 @@ export class Hero {
 
       if (this.collisions.isUnderfoot(this, building)) {
         this.onFloor = true;
+        // this.isJumping = false;
         // if (this.dead) return;
         // If jaffing down to the floor, round into it
         if (this.velocity.y > 0) {
@@ -161,11 +200,19 @@ export class Hero {
     });
   }
 
+  acceleration(dt) {
+    if (this.onFloor && this.velocity.x < this.maxVelocity) {
+      this.velocity.x += this.floorAcceleration * dt;
+    }
+  }
+
   update(dt) {
     // Isn't necessary much, as the engine handles all rendering updates
 
     // this.velocity.x = Math.sin(++this.temporaryTicker / 100) + 1;
     this.pose();
-    this.forces();
+    this.jumping(dt);
+    this.forces(dt);
+    this.acceleration(dt);
   }
 }

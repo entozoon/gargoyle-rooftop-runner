@@ -6,7 +6,7 @@ import { BuildingCollection } from './BuildingCollection';
 export default class Game extends Component {
   constructor(props) {
     super(props);
-    this.then = 0;
+    this.then = Date.now();
 
     this.hero = new Hero();
     this.buildingCollection = new BuildingCollection();

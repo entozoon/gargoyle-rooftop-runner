@@ -14,6 +14,7 @@
 
 ![created by readme-kanban-board](./kanban.png)
 
+![created by readme-kanban-board](./kanban.png)
 <!---KANBAN
 # Do
 - Procedural gen buildings
