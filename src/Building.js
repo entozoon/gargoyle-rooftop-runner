@@ -51,6 +51,7 @@ export default class Building {
 
   destroy() {
     this.sprite.destroy();
+    // Pixi.app.stage.removeChild(this.sprite);
   }
 
   update(dt) {

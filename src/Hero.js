@@ -5,21 +5,23 @@ export class Hero {
   constructor() {
     this.gravity = 0.02;
     this.jumpVelocity = -0.8;
-    this.velocity = { y: 0, x: 0.5 };
+    this.velocity = { y: 0, x: 0.2 };
     this.floorAcceleration = 0.0001;
-    this.maxVelocity = 1;
+    this.maxVelocity = 2;
     this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
-    this.collisions = new Collisions();
+    this.collisions = new Collisions({
+      bboxFraction: 0.5
+    });
     this._jumping = false;
 
     this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
 
-    this.spriteSize = 50;
+    this.spriteSize = 100;
 
     this.spriteTextures = {};
-    ['run', 'jump', 'dead'].forEach((pose, i) => {
+    ['run', 'jump', 'fall', 'dead'].forEach((pose, i) => {
       this.spriteTextures[pose] = new Pixi.engine.Texture(this.texture, {
         x: i * this.spriteSize,
         y: 0,
@@ -38,19 +40,25 @@ export class Hero {
 
     document.addEventListener('keydown', e => {
       // Space
-      if (e.keyCode == 32 && !this.jumping) {
+      if (e.keyCode === 32 && !this.jumping) {
         e.preventDefault(); // brutal but, stop paging
         this.jumping = true;
       }
     });
     document.addEventListener('keyup', e => {
-      if (e.keyCode == 32) {
+      if (e.keyCode === 32) {
         this.jumping = false;
       }
     });
   }
 
   // I should really be currying this junk
+  set position(value) {
+    this.sprite.position = value;
+  }
+  get position() {
+    return this.sprite.position;
+  }
   set y(value) {
     this.sprite.position.y = value;
   }
@@ -79,6 +87,9 @@ export class Hero {
       this.velocity.y = 0;
       this.velocity.x = 0;
       console.log('Game over');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     }
   }
 
@@ -87,8 +98,10 @@ export class Hero {
       this._pose = 'dead';
     } else if (this.velocity.y < 0) {
       this._pose = 'jump';
-    } else {
+    } else if (this.onFloor) {
       this._pose = 'run';
+    } else {
+      this._pose = 'fall';
     }
 
     this.sprite.texture = this.spriteTextures[this._pose];
@@ -107,8 +120,7 @@ export class Hero {
     } else if (this.velocity.y < 0) {
       // Halt jump
       // this.velocity.y = 0;
-      // Slow jump right down
-      let slowedVelocity = this;
+      // Slow jump right down instead
       this.velocity.y *= 0.3;
     }
   }

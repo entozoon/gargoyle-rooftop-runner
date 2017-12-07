@@ -27,9 +27,9 @@ export class BuildingCollection {
 
     let platform = new Building({
       texture: this.texture,
-      width: Pixi.width * 2,
+      width: Pixi.width,
       position: {
-        x: 0,
+        x: Pixi.width * 0.1,
         y: Pixi.height * 0.75
       }
     });
@@ -38,7 +38,7 @@ export class BuildingCollection {
 
   shouldCreateNewBuilding() {
     // return new Promise((resolve, reject) => {
-    if (this.collection.length == 0) {
+    if (this.collection.length === 0) {
       //resolve();
       return true;
     }
@@ -72,12 +72,13 @@ export class BuildingCollection {
   }
 
   shouldDeleteBuilding(building) {
-    return building.x + building.width < 0;
+    return building.x + building.width < -Pixi.width * 0.25; // breathing room
   }
 
   deleteBuilding(building, i) {
     building.destroy();
     this.collection.splice(i, 1);
+    console.log(this.collection.length);
   }
 
   update(dt, hero) {
