@@ -10,6 +10,8 @@ export class Hero {
     this.maxVelocity = 2;
     this.score = 0;
     this.scoringFactor = 0.01;
+    // Hurray for magic arbitrary numbers!
+    this.furthestJumpDistance = 1350;
     // this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;

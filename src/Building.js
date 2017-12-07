@@ -1,4 +1,4 @@
-import Pixi from './PixiCreate';
+import Pixi from "./PixiCreate";
 
 export default class Building {
   constructor(options) {
@@ -6,7 +6,8 @@ export default class Building {
     // this.sprite = new Pixi.engine.Sprite(this.texture);
     this.sprite = new Pixi.engine.extras.TilingSprite(options.texture);
 
-    this.width = this.sprite.width = options.width || 600;
+    this.width = this.sprite.width =
+      options.width || 100 + Math.random() * Pixi.width;
     this.height = this.sprite.height = options.height || 1000;
     this.sprite.anchor.x = 0;
     this.sprite.anchor.y = 0;

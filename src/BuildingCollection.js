@@ -2,10 +2,10 @@ import Pixi from "./PixiCreate";
 import Building from "./Building";
 
 export class BuildingCollection {
-  constructor() {
+  constructor(hero) {
     this.collection = [];
     this.texture = new Pixi.engine.Texture.fromImage("./assets/test.png");
-
+    this.hero = hero;
     this.createPlatform();
   }
 
@@ -37,15 +37,19 @@ export class BuildingCollection {
   }
 
   shouldCreateNewBuilding() {
-    // return new Promise((resolve, reject) => {
     if (this.collection.length === 0) {
-      //resolve();
       return true;
     }
 
-    // These will have to ingeniously scale up with hero velocity!
-    let gapMin = 100,
-      gapMax = 300;
+    // These ingeniously scale up with hero velocity!
+    let gapMax = this.hero.velocity.x * this.hero.furthestJumpDistance;
+    let gapMin = gapMax * (0.1 + Math.random(0.9));
+    // gapMin = gapMax; // Test full jump
+
+    // If it's a huge jump, don't move them much; upward that is.
+    let gapMinMaxDiff = gapMax - gapMin;
+
+    // ....
 
     // Doesn't use gap min yet!
     if (
@@ -53,15 +57,12 @@ export class BuildingCollection {
       this.rightmostBuilding.x < Pixi.width &&
       // and leaving a big ol' gap on the right
       Pixi.width - this.rightmostBuilding.x - this.rightmostBuilding.width >
-        gapMax
+        gapMin + Math.random() * (gapMax - gapMin)
     ) {
-      //resolve();
       return true;
     }
 
-    // reject();
     return false;
-    // });
   }
 
   createNewBuilding() {

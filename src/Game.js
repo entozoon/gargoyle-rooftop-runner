@@ -12,7 +12,7 @@ export default class Game extends Component {
     // Z-index style ordering here is significant
     this.background = new Background();
     this.hero = new Hero();
-    this.buildingCollection = new BuildingCollection();
+    this.buildingCollection = new BuildingCollection(this.hero);
 
     this.hudScore = new Pixi.engine.Text("Score: ", {
       fontFamily: "Tahoma",
