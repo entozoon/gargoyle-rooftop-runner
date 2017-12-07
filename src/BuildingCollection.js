@@ -6,6 +6,9 @@ export class BuildingCollection {
     this.collection = [];
     this.texture = new Pixi.engine.Texture.fromImage("./assets/test.png");
     this.hero = hero;
+    this.useLatestGaps = false;
+    this.offsetYLast = 200;
+    this.maxOffsetY = 150;
     this.createPlatform();
   }
 
@@ -18,22 +21,49 @@ export class BuildingCollection {
       texture: this.texture,
       width: 10,
       height: 10,
-      position: {
-        x: 0,
-        y: Pixi.height * 2
-      }
+      x: 0,
+      y: Pixi.height * 2
     });
     this.collection.push(offscreenForCaching);
 
     let platform = new Building({
       texture: this.texture,
       width: Pixi.width,
-      position: {
-        x: Pixi.width * 0.1,
-        y: Pixi.height * 0.75
-      }
+      x: Pixi.width * 0.1,
+      y: Pixi.height * 0.75
     });
     this.collection.push(platform);
+  }
+
+  createGaps() {
+    // These ingeniously scale up with hero velocity!
+    this.gapMax = this.hero.velocity.x * this.hero.furthestJumpDistance;
+    this.gapMin = this.gapMax * 0.2;
+    this.gap = this.gapMin + this.gapMax * Math.random() * 0.8;
+    // this.gapMin = this.gapMax; // Test full jump
+    // console.log(this.gapMin + " -> " + this.gapMax);
+
+    // If it's a huge jump, don't move them much; upward that is.
+    // this.gapMinMaxDiffFraction =
+    //   (this.gapMax - this.gapMin) / (this.gapMax - this.gapMinPoss); // 0 -> 1
+    this.hugeJumpness = this.gap / this.gapMax;
+    console.log(this.hugeJumpness);
+
+    // this.offsetY = (1 - this.hugeJumpness) * this.maxOffsetY * 2 - this.maxOffsetY;
+    this.offsetY = Math.random() * this.maxOffsetY * 2 - this.maxOffsetY;
+
+    // If trying to offset upward, scale that offset down for large jumps
+    console.log(this.offsetY);
+    if (this.offsetY < 0) {
+      this.offsetY *= this.hugeJumpness;
+    }
+
+    // this.offsetY =
+    //   (1 - this.gapMinMaxDiffFraction) * this.maxOffsetY * 2 - this.maxOffsetY; // e.g. -200 -> 200
+
+    // console.log(this.gapMinMaxDiffFraction);
+    console.log(this.offsetY);
+    console.log("");
   }
 
   shouldCreateNewBuilding() {
@@ -41,24 +71,20 @@ export class BuildingCollection {
       return true;
     }
 
-    // These ingeniously scale up with hero velocity!
-    let gapMax = this.hero.velocity.x * this.hero.furthestJumpDistance;
-    let gapMin = gapMax * (0.1 + Math.random(0.9));
-    // gapMin = gapMax; // Test full jump
+    if (!this.useLatestGaps) {
+      this.createGaps();
+    }
+    this.useLatestGaps = true;
 
-    // If it's a huge jump, don't move them much; upward that is.
-    let gapMinMaxDiff = gapMax - gapMin;
-
-    // ....
-
-    // Doesn't use gap min yet!
     if (
       // If rightmost building is onscreen
       this.rightmostBuilding.x < Pixi.width &&
       // and leaving a big ol' gap on the right
       Pixi.width - this.rightmostBuilding.x - this.rightmostBuilding.width >
-        gapMin + Math.random() * (gapMax - gapMin)
+        this.gap
+      // this.gapMin + Math.random() * (this.gapMax - this.gapMin)
     ) {
+      this.useLatestGaps = false;
       return true;
     }
 
@@ -68,7 +94,8 @@ export class BuildingCollection {
   createNewBuilding() {
     // console.log('createNewBuilding');
     let building = new Building({
-      texture: this.texture
+      texture: this.texture,
+      offsetY: this.offsetY
     });
     this.collection.push(building);
   }

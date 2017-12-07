@@ -95,9 +95,9 @@ export class Hero {
       this.velocity.y = 0;
       this.velocity.x = 0;
       console.log("Game over");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 1000);
     }
   }
 

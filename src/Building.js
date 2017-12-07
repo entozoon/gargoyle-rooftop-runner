@@ -11,11 +11,12 @@ export default class Building {
     this.height = this.sprite.height = options.height || 1000;
     this.sprite.anchor.x = 0;
     this.sprite.anchor.y = 0;
-    this.position = this.sprite.position = options.position || {
-      x: Pixi.width,
-      y: Pixi.height / 2
-    };
+    this.offsetY = options.offsetY || 0;
+    this.x = options.x || Pixi.width;
+    this.y = options.y || Pixi.height / 2 + this.offsetY;
     this.sprite.scale = { x: 1, y: 1 };
+
+    if (this.y > Pixi.height - 50) this.y = Pixi.height - 50;
 
     // HIT, probably won't use this.. just.. do it manual styles.
     // this.sprite.hitArea = new Pixi.engine.Rectangle(0, 0, 100, 100);
@@ -24,11 +25,17 @@ export default class Building {
   }
 
   // I should really be currying this junk
-  get y() {
-    return this.sprite.position.y;
+  set x(value) {
+    this.sprite.position.x = value;
+  }
+  set y(value) {
+    this.sprite.position.y = value;
   }
   get x() {
     return this.sprite.position.x;
+  }
+  get y() {
+    return this.sprite.position.y;
   }
   get width() {
     return this.sprite.width;
