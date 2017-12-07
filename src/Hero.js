@@ -8,7 +8,9 @@ export class Hero {
     this.velocity = { y: 0, x: 0.2 };
     this.floorAcceleration = 0.0001;
     this.maxVelocity = 2;
-    this.temporaryTicker = 0;
+    this.score = 0;
+    this.scoringFactor = 0.01;
+    // this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
     this.collisions = new Collisions({
@@ -202,11 +204,18 @@ export class Hero {
     }
   }
 
+  scoring(dt) {
+    // if (this.onFloor) {
+    // this.score += dt * this.scoringFactor;
+    this.score += dt * this.velocity.x * this.scoringFactor;
+  }
+
   update(dt) {
     // this.velocity.x = Math.sin(++this.temporaryTicker / 100) + 1;
     this.pose();
     this.maybeJump();
     this.forces(dt);
     this.acceleration(dt);
+    this.scoring(dt);
   }
 }

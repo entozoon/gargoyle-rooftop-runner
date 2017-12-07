@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import Pixi from './PixiCreate';
-import { Hero } from './Hero';
-import { Background } from './Background';
-import { BuildingCollection } from './BuildingCollection';
+import React, { Component } from "react";
+import Pixi from "./PixiCreate";
+import { Hero } from "./Hero";
+import { Background } from "./Background";
+import { BuildingCollection } from "./BuildingCollection";
 
 export default class Game extends Component {
   constructor(props) {
@@ -14,24 +14,24 @@ export default class Game extends Component {
     this.hero = new Hero();
     this.buildingCollection = new BuildingCollection();
 
-    this.text = new Pixi.engine.Text('Score:', {
-      fontFamily: 'Verdana',
-      fontSize: 24,
-      fill: 0xff1010,
-      align: 'center'
+    this.hudScore = new Pixi.engine.Text("Score: ", {
+      fontFamily: "Tahoma",
+      fontSize: 18,
+      fill: 0xff6a00,
+      align: "left"
     });
-    this.text.position = { x: 0, y: 0 };
+    this.hudScore.position = { x: 5, y: 5 };
 
-    Pixi.app.stage.addChild(this.text);
+    Pixi.app.stage.addChild(this.hudScore);
 
     // Could like, embiggen the score as it's going up and anything stuff like that
     // Pixi.app.ticker.add(dt => {
-    //   this.text.rotation += 0.01;
+    //   this.hudScore.rotation += 0.01;
     // });
   }
 
   componentDidMount() {
-    document.getElementById('game').appendChild(Pixi.app.view);
+    document.getElementById("game").appendChild(Pixi.app.view);
 
     this.animationFrame = window.requestAnimationFrame(this.update.bind(this));
   }
@@ -42,6 +42,7 @@ export default class Game extends Component {
 
     this.background.update(dt, this.hero.velocity);
     this.hero.update(dt);
+    this.hudScore.text = "Score: " + Math.round(this.hero.score);
     this.buildingCollection.update(dt, this.hero);
 
     window.requestAnimationFrame(this.update.bind(this));
