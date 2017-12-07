@@ -40,7 +40,10 @@ export class BuildingCollection {
     this.gapMax = this.hero.velocity.x * this.hero.furthestJumpDistance;
     this.gapMin = this.gapMax * 0.2;
     this.gap = this.gapMin + this.gapMax * Math.random() * 0.8;
-    // this.gapMin = this.gapMax; // Test full jump
+
+    // Test full jump
+    // this.gap = this.gapMin = this.gapMax;
+
     // console.log(this.gapMin + " -> " + this.gapMax);
 
     // If it's a huge jump, don't move them much; upward that is.

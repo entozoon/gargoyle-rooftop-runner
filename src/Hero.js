@@ -3,15 +3,15 @@ import Collisions from "./Collisions";
 
 export class Hero {
   constructor() {
-    this.gravity = 0.02;
-    this.jumpVelocity = -0.8;
+    this.gravity = 0.035;
+    this.jumpVelocity = -1.4;
     this.velocity = { y: 0, x: 0.2 };
     this.floorAcceleration = 0.0001;
     this.maxVelocity = 2;
     this.score = 0;
     this.scoringFactor = 0.01;
     // Hurray for magic arbitrary numbers!
-    this.furthestJumpDistance = 1350;
+    this.furthestJumpDistance = 1200;
     // this.temporaryTicker = 0;
     this.onFloor = false;
     this._dead = false;
@@ -136,7 +136,7 @@ export class Hero {
       // Halt jump
       // this.velocity.y = 0;
       // Slow jump right down instead
-      this.velocity.y *= 0.3;
+      this.velocity.y *= 0.7;
     }
     this._jumping = jumping;
   }

@@ -1,11 +1,11 @@
-let PIXILIB = require('pixi.js');
+let PIXILIB = require("pixi.js");
 
 class Pixi {
   constructor() {
     this.engine = PIXILIB;
     this.app = new this.engine.Application({
-      width: 1200,
-      height: 600
+      width: 1440,
+      height: 900
     });
   }
   get width() {
