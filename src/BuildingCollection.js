@@ -44,29 +44,16 @@ export class BuildingCollection {
     // Test full jump
     // this.gap = this.gapMin = this.gapMax;
 
-    // console.log(this.gapMin + " -> " + this.gapMax);
-
     // If it's a huge jump, don't move them much; upward that is.
-    // this.gapMinMaxDiffFraction =
-    //   (this.gapMax - this.gapMin) / (this.gapMax - this.gapMinPoss); // 0 -> 1
     this.hugeJumpness = this.gap / this.gapMax;
-    console.log(this.hugeJumpness);
 
     // this.offsetY = (1 - this.hugeJumpness) * this.maxOffsetY * 2 - this.maxOffsetY;
     this.offsetY = Math.random() * this.maxOffsetY * 2 - this.maxOffsetY;
 
     // If trying to offset upward, scale that offset down for large jumps
-    console.log(this.offsetY);
     if (this.offsetY < 0) {
       this.offsetY *= this.hugeJumpness;
     }
-
-    // this.offsetY =
-    //   (1 - this.gapMinMaxDiffFraction) * this.maxOffsetY * 2 - this.maxOffsetY; // e.g. -200 -> 200
-
-    // console.log(this.gapMinMaxDiffFraction);
-    console.log(this.offsetY);
-    console.log("");
   }
 
   shouldCreateNewBuilding() {
