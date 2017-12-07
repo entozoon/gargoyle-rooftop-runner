@@ -1,5 +1,5 @@
-import Pixi from './PixiCreate';
-import Collisions from './Collisions';
+import Pixi from "./PixiCreate";
+import Collisions from "./Collisions";
 
 export class Hero {
   constructor() {
@@ -16,12 +16,14 @@ export class Hero {
     });
     this._jumping = false;
 
-    this.texture = new Pixi.engine.Texture.fromImage('./assets/hero.png').baseTexture;
+    this.texture = new Pixi.engine.Texture.fromImage(
+      "./assets/hero.png"
+    ).baseTexture;
 
     this.spriteSize = 100;
 
     this.spriteTextures = {};
-    ['run', 'jump', 'fall', 'dead'].forEach((pose, i) => {
+    ["run", "jump", "fall", "dead"].forEach((pose, i) => {
       this.spriteTextures[pose] = new Pixi.engine.Texture(this.texture, {
         x: i * this.spriteSize,
         y: 0,
@@ -31,23 +33,25 @@ export class Hero {
     });
 
     // Default, for a split second
-    this.sprite = new Pixi.engine.Sprite(this.spriteTextures['jump']);
+    this.sprite = new Pixi.engine.Sprite(this.spriteTextures["jump"]);
 
     Pixi.app.stage.addChild(this.sprite);
 
     this.x = Pixi.width * 0.1;
     this.y = 0;
 
-    document.addEventListener('keydown', e => {
+    document.addEventListener("keydown", e => {
       // Space
-      if (e.keyCode === 32 && !this.jumping) {
+      if (e.keyCode === 32 && !this.jumpingPressed) {
         e.preventDefault(); // brutal but, stop paging
-        this.jumping = true;
+        // this.jumping = true;
+        this.jumpingPressed = true;
       }
     });
-    document.addEventListener('keyup', e => {
+    document.addEventListener("keyup", e => {
       if (e.keyCode === 32) {
-        this.jumping = false;
+        // this.jumping = false;
+        this.jumpingPressed = false;
       }
     });
   }
@@ -86,7 +90,7 @@ export class Hero {
     if (dead) {
       this.velocity.y = 0;
       this.velocity.x = 0;
-      console.log('Game over');
+      console.log("Game over");
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -95,13 +99,13 @@ export class Hero {
 
   pose() {
     if (this.dead) {
-      this._pose = 'dead';
+      this._pose = "dead";
     } else if (this.velocity.y < 0) {
-      this._pose = 'jump';
+      this._pose = "jump";
     } else if (this.onFloor) {
-      this._pose = 'run';
+      this._pose = "run";
     } else {
-      this._pose = 'fall';
+      this._pose = "fall";
     }
 
     this.sprite.texture = this.spriteTextures[this._pose];
@@ -112,10 +116,17 @@ export class Hero {
   }
 
   set jumping(jumping) {
-    this._jumping = jumping;
-
     if (jumping) {
-      if (this.dead || !this.onFloor) return;
+      // if (this.velocity.y > 0) {
+      //   console.log("stop jump");
+
+      //   this._jumping = false;
+      // }
+
+      if (this.dead || !this.onFloor) {
+        return;
+      }
+
       this.velocity.y = this.jumpVelocity;
     } else if (this.velocity.y < 0) {
       // Halt jump
@@ -123,10 +134,21 @@ export class Hero {
       // Slow jump right down instead
       this.velocity.y *= 0.3;
     }
+    this._jumping = jumping;
   }
 
   stopJump() {
     this.velocity.y = 0;
+  }
+
+  maybeJump() {
+    if (this.jumpingPressed) {
+      if (this.onFloor) {
+        this.jumping = true;
+      }
+    } else {
+      this.jumping = false;
+    }
   }
 
   forces(dt) {
@@ -134,6 +156,11 @@ export class Hero {
     if (this.onFloor && this.velocity.y > 0) {
       this.velocity.y = 0;
       return;
+    }
+
+    // Falsify jumping var during fall to allow for insta-rejump
+    if (this.velocity.y > 0) {
+      this.jumping = false;
     }
 
     this.velocity.y += this.gravity;
@@ -178,6 +205,7 @@ export class Hero {
   update(dt) {
     // this.velocity.x = Math.sin(++this.temporaryTicker / 100) + 1;
     this.pose();
+    this.maybeJump();
     this.forces(dt);
     this.acceleration(dt);
   }

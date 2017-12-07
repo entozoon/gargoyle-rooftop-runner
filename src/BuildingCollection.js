@@ -1,10 +1,10 @@
-import Pixi from './PixiCreate';
-import Building from './Building';
+import Pixi from "./PixiCreate";
+import Building from "./Building";
 
 export class BuildingCollection {
   constructor() {
     this.collection = [];
-    this.texture = new Pixi.engine.Texture.fromImage('./assets/test.png');
+    this.texture = new Pixi.engine.Texture.fromImage("./assets/test.png");
 
     this.createPlatform();
   }
@@ -52,7 +52,8 @@ export class BuildingCollection {
       // If rightmost building is onscreen
       this.rightmostBuilding.x < Pixi.width &&
       // and leaving a big ol' gap on the right
-      Pixi.width - this.rightmostBuilding.x - this.rightmostBuilding.width > gapMax
+      Pixi.width - this.rightmostBuilding.x - this.rightmostBuilding.width >
+        gapMax
     ) {
       //resolve();
       return true;
@@ -78,7 +79,6 @@ export class BuildingCollection {
   deleteBuilding(building, i) {
     building.destroy();
     this.collection.splice(i, 1);
-    console.log(this.collection.length);
   }
 
   update(dt, hero) {

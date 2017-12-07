@@ -15,10 +15,11 @@
 ![created by readme-kanban-board](./kanban.png)
 
 ![created by readme-kanban-board](./kanban.png)
+
+![created by readme-kanban-board](./kanban.png)
 <!---KANBAN
 # Do
 - Procedural gen buildings
-- Jump hold velocity acceleration
 - Speeding up
 - Scores
 - Obstacles
@@ -28,6 +29,7 @@
 
 # Doing
 - Physics
+- Jump hold velocity acceleration
 
 # Done
 - Game engine
@@ -37,6 +39,7 @@ KANBAN--->
 
 ## Future Ideas
 
-* Free running mode - run left and right, as fast as you like after a crazy boost. Why not? I've built it with legit velocities..
+* Free running mode - run left and right, as fast as you like after a crazy
+  boost. Why not? I've built it with legit velocities..
 * Power ups in general
 * Kill teh enemiez, Mario style?
