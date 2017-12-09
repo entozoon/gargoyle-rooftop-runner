@@ -4,8 +4,8 @@ class Pixi {
   constructor() {
     this.engine = PIXILIB;
     this.app = new this.engine.Application({
-      width: 1440,
-      height: 900
+      width: 1600,
+      height: 800
     });
   }
   get width() {

@@ -28,6 +28,7 @@
 # Done
 - Game engine
 - Building concept
+- Building min/max widths and gaps
 - Sprite loading
 - Speeding up
 - Scores
@@ -41,3 +42,5 @@ KANBAN--->
   boost. Why not? I've built it with legit velocities..
 * Power ups in general
 * Kill teh enemiez, Mario style?
+* Difficulty modes - e.g. Hardest would use _almost_ only gapMax and widthMin
+  for buildings

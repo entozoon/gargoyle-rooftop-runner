@@ -38,8 +38,14 @@ export class BuildingCollection {
   createGaps() {
     // These ingeniously scale up with hero velocity!
     this.gapMax = this.hero.velocity.x * this.hero.furthestJumpDistance;
-    this.gapMin = this.gapMax * 0.2;
+    //this.gapMin = this.gapMax * 0.2;
+    // Buildings are a little too far apart at speed, let's try a smaller gap but wider buildings at min
+    this.gapMin = 30;
     this.gap = this.gapMin + this.gapMax * Math.random() * 0.8;
+    //  30 / (40)  / 500
+    //  30 / (400) / 500
+    this.nearingGapMinFactor =
+      (this.gap - this.gapMin) / (this.gapMax - this.gapMin);
 
     // Test full jump
     // this.gap = this.gapMin = this.gapMax;
@@ -81,10 +87,20 @@ export class BuildingCollection {
     return false;
   }
 
-  createNewBuilding() {
+  createNewBuilding(hero) {
     // console.log('createNewBuilding');
+
+    // Scale building size up a little if they're super nearby, but only at speed
+    // let width = 100 + Math.random() * Pixi.width;
+    let widthMin = hero.velocity.x * 400;
+    let widthMax = 500 + hero.velocity.x * 1500;
+    let width = widthMin + Math.random() * (widthMax - widthMin);
+    // width = widthMax; // test specific width
+    width = Math.round(width);
+
     let building = new Building({
       texture: this.texture,
+      width: width,
       offsetY: this.offsetY
     });
     this.collection.push(building);
@@ -104,7 +120,7 @@ export class BuildingCollection {
     //   this.createNewBuilding();
     // });
     if (this.shouldCreateNewBuilding()) {
-      this.createNewBuilding();
+      this.createNewBuilding(hero);
     }
 
     this.collection.forEach((building, i) => {

@@ -137,7 +137,7 @@ export class Hero {
       // this.velocity.y = 0;
       // Slow jump right down instead
       // this.velocity.y *= 0.5;
-      console.log(this.velocity.y / this.jumpVelocity); // 1 -> 0 (lowest to highest vertically)
+      //console.log(this.velocity.y / this.jumpVelocity); // 1 -> 0 (lowest to highest vertically)
       // When purposefully stopping jumping, scale it so that if you're near the ground you move straight back down
       // but if high up in the jump, you move down less quickly..
       // allowing little bunny hops. effect lessened though by magic multiplier so you feel purposeful falls from height

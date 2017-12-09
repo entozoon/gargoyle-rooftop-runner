@@ -8,7 +8,7 @@ export default class Building {
 
     this.width = this.sprite.width =
       options.width || 100 + Math.random() * Pixi.width;
-    this.height = this.sprite.height = options.height || 1000;
+    this.height = this.sprite.height = options.height || Pixi.height; // optimisation - y offset based height
     this.sprite.anchor.x = 0;
     this.sprite.anchor.y = 0;
     this.offsetY = options.offsetY || 0;
