@@ -27,6 +27,6 @@
   "devDependencies": {
     "del-cli": "^1.1.0",
     "gh-pages": "^1.1.0",
-    "readme-kanban-board": "^1.4.0"
+    "readme-kanban-board": "^1.4.1"
   }
 }
