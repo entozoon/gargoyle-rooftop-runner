@@ -17,17 +17,15 @@
 ![created by readme-kanban-board](./kanban.png)
 
 ![created by readme-kanban-board](./kanban.png)
+
 <!---KANBAN
 # Do
-- Procedural gen buildings
-- Speeding up
-- Scores
-- Obstacles
 - Sprite animation
-- Graphics
+- Obstacles
 - Leaderboard (maybe re-host to firebase)
 
 # Doing
+- Graphics
 - Physics
 - Jump hold velocity acceleration
 
@@ -35,6 +33,10 @@
 - Game engine
 - Building concept
 - Sprite loading
+- Speeding up
+- Scores
+- Prototype graphics
+- Procedural gen buildings
 KANBAN--->
 
 ## Future Ideas

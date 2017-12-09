@@ -1,0 +1,1 @@
+{"version":3,"sources":["index.css"],"names":[],"mappings":"AAAA,KAAK,SAAS,UAAU,eAAgB,CAAC,OAAO,wCAAwC,+BAA+B","file":"static/css/main.a31774c7.css","sourcesContent":["body{margin:0;padding:0;background:black}canvas{-webkit-box-shadow:0 0 30px 1px #232323;box-shadow:0 0 30px 1px #232323}\n\n\n\n// WEBPACK FOOTER //\n// ./src/index.css"],"sourceRoot":""}
