@@ -1,6 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
-  background: #eee;
+  background: black;
+}
+canvas {
+  // border-bottom: 2px solid #232323;
+  box-shadow: 0 0 30px 1px #232323;
 }
