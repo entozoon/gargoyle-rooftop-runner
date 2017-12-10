@@ -2,6 +2,8 @@ import Pixi from "./PixiCreate";
 
 export default class Building {
   constructor(options) {
+    this.hero = options.hero;
+
     // Texture is just the image data, sprite is the object but TilingSprite is ronseal
     // this.sprite = new Pixi.engine.Sprite(this.texture);
     this.sprite = new Pixi.engine.extras.TilingSprite(options.texture);
@@ -13,7 +15,8 @@ export default class Building {
     this.sprite.anchor.y = 0;
     this.offsetY = options.offsetY || 0;
     this.x = options.x || Pixi.width;
-    this.y = options.y || Pixi.height / 2 + this.offsetY;
+    this.y = Math.round(options.y);
+
     this.sprite.scale = { x: 1, y: 1 };
 
     if (this.y > Pixi.height - 50) this.y = Pixi.height - 50;
@@ -63,6 +66,9 @@ export default class Building {
   }
 
   update(dt) {
-    this.sprite.position.x -= this.speed * dt;
+    if (!this.hero) return;
+    console.log(this.hero);
+    // this.sprite.position.x -= this.speed * dt;
+    this.x -= Math.round(this.hero.velocity.x * dt);
   }
 }

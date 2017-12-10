@@ -46,10 +46,12 @@ export class Hero {
 
     document.addEventListener("keydown", e => {
       // Space
-      if (e.keyCode === 32 && !this.jumpingPressed) {
+      if (e.keyCode === 32) {
         e.preventDefault(); // brutal but, stop paging
-        // this.jumping = true;
-        this.jumpingPressed = true;
+        if (!this.jumpingPressed) {
+          // this.jumping = true;
+          this.jumpingPressed = true;
+        }
       }
     });
     document.addEventListener("keyup", e => {

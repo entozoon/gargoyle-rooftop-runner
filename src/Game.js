@@ -12,7 +12,10 @@ export default class Game extends Component {
     // Z-index style ordering here is significant
     this.background = new Background();
     this.hero = new Hero();
-    this.buildingCollection = new BuildingCollection(this.hero);
+
+    this.buildingCollection = new BuildingCollection({
+      hero: this.hero
+    });
 
     this.hudScore = new Pixi.engine.Text("Score: ", {
       fontFamily: "Tahoma",
@@ -43,7 +46,7 @@ export default class Game extends Component {
     this.background.update(dt, this.hero.velocity);
     this.hero.update(dt);
     this.hudScore.text = "Score: " + Math.round(this.hero.score);
-    this.buildingCollection.update(dt, this.hero);
+    this.buildingCollection.update(dt);
 
     window.requestAnimationFrame(this.update.bind(this));
   }
