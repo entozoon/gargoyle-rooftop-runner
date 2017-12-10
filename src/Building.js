@@ -67,7 +67,6 @@ export default class Building {
 
   update(dt) {
     if (!this.hero) return;
-    console.log(this.hero);
     // this.sprite.position.x -= this.speed * dt;
     this.x -= Math.round(this.hero.velocity.x * dt);
   }

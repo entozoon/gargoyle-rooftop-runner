@@ -5,6 +5,7 @@ import Items from "./Items";
 export class BuildingCollection {
   constructor(options) {
     this.hero = options.hero;
+
     this.collection = [];
     this.texture = new Pixi.engine.Texture.fromImage("./assets/test.png");
     this.useLatestGaps = false;
@@ -23,6 +24,7 @@ export class BuildingCollection {
 
   createPlatform() {
     let offscreenForCaching = new Building({
+      hero: this.hero,
       texture: this.texture,
       width: 10,
       height: 10,
@@ -32,6 +34,7 @@ export class BuildingCollection {
     this.collection.push(offscreenForCaching);
 
     let platform = new Building({
+      hero: this.hero,
       texture: this.texture,
       width: Pixi.width,
       x: Pixi.width * 0.1,
@@ -90,7 +93,6 @@ export class BuildingCollection {
       return true;
     }
 
-    console.log("false ffs..");
     return false;
   }
 
@@ -104,9 +106,6 @@ export class BuildingCollection {
     let width = widthMin + Math.random() * (widthMax - widthMin);
     // width = widthMax; // test specific width
     width = Math.round(width);
-
-    console.log("-------");
-    console.log(this.hero);
 
     let building = new Building({
       hero: this.hero,
@@ -132,9 +131,9 @@ export class BuildingCollection {
     // this.shouldCreateNewBuilding().then(() => {
     //   this.createNewBuilding();
     // });
+
     if (this.shouldCreateNewBuilding()) {
-      console.log("srs come on");
-      let building = this.createNewBuilding();
+      let building = this.createNewBuilding(this.hero);
       this.items.create({
         hero: this.hero,
         building: building
