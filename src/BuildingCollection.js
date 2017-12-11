@@ -16,6 +16,7 @@ export class BuildingCollection {
     this.items = new Items({
       hero: this.hero
     });
+    this.ticker = 0;
   }
 
   get rightmostBuilding() {
@@ -119,7 +120,7 @@ export class BuildingCollection {
   }
 
   shouldDeleteBuilding(building) {
-    return building.x + building.width < -Pixi.width * 0.25; // breathing room
+    return building.x + building.width < -100; // breathing room
   }
 
   deleteBuilding(building, i) {
@@ -145,13 +146,20 @@ export class BuildingCollection {
     this.collection.forEach((building, i) => {
       // building.speed = this.hero.velocity.x;
       building.update(dt);
-
-      // Garbage collection
-      if (this.shouldDeleteBuilding(building)) {
-        this.deleteBuilding(building, i);
-      }
     });
 
+    // Garbage collection
+    // Optimised - this can afford to run much less frequently, like every 20 frames
+    if (
+      this.ticker % 20 === 0 &&
+      this.shouldDeleteBuilding(this.collection[0])
+    ) {
+      this.deleteBuilding(this.collection[0], 0);
+      // console.log(this.collection.length);
+    }
+
     this.hero.collisionHandler(this.collection);
+
+    this.ticker = this.ticker > 9999 ? 0 : ++this.ticker; // Rough but good enough for garbage
   }
 }

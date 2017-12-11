@@ -47,7 +47,7 @@ export default class Item {
 
     Pixi.app.stage.addChild(this.sprite);
 
-    console.log(this.x + ", " + this.y);
+    // console.log(this.x + ", " + this.y); // **
   }
 
   // I should really be currying this junk

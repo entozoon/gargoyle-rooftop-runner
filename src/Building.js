@@ -69,6 +69,7 @@ export default class Building {
     if (!this.hero) return;
     // this.sprite.position.x -= this.speed * dt;
     // this.x -= Math.round(this.hero.velocity.x * dt);
+
     this.x -= this.hero.velocity.x * dt;
   }
 }

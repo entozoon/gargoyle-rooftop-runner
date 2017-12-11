@@ -13,10 +13,12 @@
     (push to master as normal)
 
 ![created by readme-kanban-board](./kanban.png)
+
 <!---KANBAN
 # Do
 - Obstacles
 - Leaderboard (maybe re-host to firebase)
+- Death gait
 
 # Doing
 - Items
