@@ -3,7 +3,7 @@ import Collisions from "./Collisions";
 
 export class Hero {
   constructor() {
-    this.gravity = 0.035;
+    this.gravity = 0.0021; //0.035;
     this.jumpVelocity = -1.4;
     this.velocity = { y: 0, x: 0.2 };
     this.floorAcceleration = 0.0001;
@@ -174,7 +174,7 @@ export class Hero {
       this.jumping = false;
     }
 
-    this.velocity.y += this.gravity;
+    this.velocity.y += this.gravity * dt; // * dt!?!? // maybe cap velocity (both dir) to prevent throttling problem too
     this.y += this.velocity.y * dt;
   }
 
