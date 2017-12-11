@@ -1,0 +1,28 @@
+{"frames": [
+
+{
+	"filename": "star1.png",
+	"frame": {"x":1,"y":1,"w":50,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+	"sourceSize": {"w":50,"h":50}
+},
+{
+	"filename": "star2.png",
+	"frame": {"x":53,"y":1,"w":25,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":0,"w":25,"h":50},
+	"sourceSize": {"w":50,"h":50}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "star.png",
+	"format": "RGBA8888",
+	"size": {"w":79,"h":52},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:7cbbec058037e50a18fd191399ed32aa:afd30fc68aea0d7deb922085c1733e09:24daf5f0426eb704a6b44d07225f8860$"
+}
+}

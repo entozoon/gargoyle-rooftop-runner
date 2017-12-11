@@ -1,15 +1,21 @@
 import Pixi from "./PixiCreate";
 import Building from "./Building";
+import Items from "./Items";
 
 export class BuildingCollection {
-  constructor(hero) {
+  constructor(options) {
+    this.hero = options.hero;
+
     this.collection = [];
     this.texture = new Pixi.engine.Texture.fromImage("./assets/test.png");
-    this.hero = hero;
     this.useLatestGaps = false;
+    this.originY = Pixi.height * 0.75;
     this.offsetYLast = 200;
-    this.maxOffsetY = 150;
+    this.maxOffsetY = 200;
     this.createPlatform();
+    this.items = new Items({
+      hero: this.hero
+    });
   }
 
   get rightmostBuilding() {
@@ -18,6 +24,7 @@ export class BuildingCollection {
 
   createPlatform() {
     let offscreenForCaching = new Building({
+      hero: this.hero,
       texture: this.texture,
       width: 10,
       height: 10,
@@ -27,6 +34,7 @@ export class BuildingCollection {
     this.collection.push(offscreenForCaching);
 
     let platform = new Building({
+      hero: this.hero,
       texture: this.texture,
       width: Pixi.width,
       x: Pixi.width * 0.1,
@@ -81,29 +89,33 @@ export class BuildingCollection {
       // this.gapMin + Math.random() * (this.gapMax - this.gapMin)
     ) {
       this.useLatestGaps = false;
+
       return true;
     }
 
     return false;
   }
 
-  createNewBuilding(hero) {
+  createNewBuilding() {
     // console.log('createNewBuilding');
 
     // Scale building size up a little if they're super nearby, but only at speed
     // let width = 100 + Math.random() * Pixi.width;
-    let widthMin = hero.velocity.x * 400;
-    let widthMax = 500 + hero.velocity.x * 1500;
+    let widthMin = this.hero.velocity.x * 400;
+    let widthMax = 500 + this.hero.velocity.x * 1500;
     let width = widthMin + Math.random() * (widthMax - widthMin);
     // width = widthMax; // test specific width
     width = Math.round(width);
 
     let building = new Building({
+      hero: this.hero,
       texture: this.texture,
       width: width,
+      y: this.originY + this.offsetY,
       offsetY: this.offsetY
     });
     this.collection.push(building);
+    return building;
   }
 
   shouldDeleteBuilding(building) {
@@ -115,16 +127,23 @@ export class BuildingCollection {
     this.collection.splice(i, 1);
   }
 
-  update(dt, hero) {
+  update(dt) {
     // this.shouldCreateNewBuilding().then(() => {
     //   this.createNewBuilding();
     // });
+
     if (this.shouldCreateNewBuilding()) {
-      this.createNewBuilding(hero);
+      let building = this.createNewBuilding(this.hero);
+      this.items.create({
+        hero: this.hero,
+        building: building
+      });
     }
 
+    this.items.update(dt);
+
     this.collection.forEach((building, i) => {
-      building.speed = hero.velocity.x;
+      building.speed = this.hero.velocity.x;
       building.update(dt);
 
       // Garbage collection
@@ -133,6 +152,6 @@ export class BuildingCollection {
       }
     });
 
-    hero.collisionHandler(this.collection);
+    this.hero.collisionHandler(this.collection);
   }
 }

@@ -13,21 +13,21 @@
     (push to master as normal)
 
 ![created by readme-kanban-board](./kanban.png)
-
 <!---KANBAN
 # Do
-- Sprite animation
 - Obstacles
 - Leaderboard (maybe re-host to firebase)
 
 # Doing
+- Items
 - Graphics
-- Physics
-- Jump hold velocity acceleration
 
 # Done
+- Sprite animation concept
 - Game engine
 - Building concept
+- Physics
+- Jump hold velocity de/acceleration
 - Building min/max widths and gaps
 - Sprite loading
 - Speeding up
