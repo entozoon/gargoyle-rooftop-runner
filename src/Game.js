@@ -20,7 +20,7 @@ export default class Game extends Component {
     this.jumpTest = new Pixi.engine.Text(
       "Jump height _________ (If you can jump higher than this, then I need to go home and rethink my life)",
       {
-        fontFamily: "Tahoma",
+        fontFamily: "Arial",
         fontSize: 18,
         fill: 0xff6a00,
         align: "left"
@@ -30,7 +30,7 @@ export default class Game extends Component {
     Pixi.app.stage.addChild(this.jumpTest);
 
     this.hudScore = new Pixi.engine.Text("Score: ", {
-      fontFamily: "Tahoma",
+      fontFamily: "Arial",
       fontSize: 18,
       fill: 0xff6a00,
       align: "left"
