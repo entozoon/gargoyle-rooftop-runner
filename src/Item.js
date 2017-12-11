@@ -1,49 +1,49 @@
 import Pixi from "./PixiCreate";
 
-let itemAssetsLoaded = false;
+let textures = {}, // abstract this later
+  itemAssetsLoaded = false;
 Pixi.engine.loader
   .add("star", "./assets/items/star/star.json")
+  .add("somethingElse", "./assets/items/star/star.json")
   .load(onItemAssetsLoaded);
 
-let texture1, texture2;
 function onItemAssetsLoaded(loader, resources) {
+  // console.log(resources);
+  // console.log(Pixi.engine.utils.TextureCache);
   itemAssetsLoaded = true;
-  console.log(resources);
-  console.log(Pixi.engine.utils.TextureCache);
-  texture1 = resources.star.textures[0];
-  texture2 = resources.star.textures[1];
-
-  // console.log("WHUH ERGH");
-  // console.log(Pixi.engine.Texture.fromFrame("star1.png"));
+  textures.star = resources.star.textures;
+  textures.somethingElse = resources.somethingElse.textures;
 }
 
 export default class Item {
   constructor(options) {
-    // if (!this.assetsLoaded) return;
     this.hero = options.hero;
 
-    // console.log(Pixi.engine.Texture.fromFrame("star1.png"));
+    // Typical flat sprite
+    // this.texture = textures.star[1];
+    // console.log(this.texture);
+    // this.sprite = new Pixi.engine.Sprite(this.texture);
+    // this.sprite.scale = { x: 1, y: 1 };
 
-    if (options.type === "star") {
-      for (var i = 0; i < 2; i++) {
-        var val = i < 10 ? "0" + i : i;
-
-        // magically works since the spritesheet was loaded with the Pixi loader
-        // frames.push(Pixi.engine.Texture.fromFrame("rollSequence00" + val + ".png"));
-      }
-    }
-
-    // this.texture = new Pixi.engine.Texture.fromImage(
-    //   "./assets/items/" + options.type + ".png"
-    // );
-    this.texture = texture1;
-    console.log(this.texture);
-
-    this.sprite = new Pixi.engine.Sprite(this.texture);
     this.x = Math.round(options.x);
     this.y = Math.round(options.y);
 
-    this.sprite.scale = { x: 1, y: 1 };
+    // Animated sprite
+    if (itemAssetsLoaded) {
+      this.frames = [];
+      for (let i in textures.star) {
+        this.frames.push(textures.star[i]);
+      }
+
+      this.sprite = new Pixi.engine.extras.AnimatedSprite(this.frames);
+
+      this.sprite.x = Math.round(options.x);
+      this.sprite.y = Math.round(options.y);
+      this.sprite.anchor.set(0.5);
+      this.sprite.animationSpeed = 0.1;
+
+      this.sprite.play();
+    }
 
     Pixi.app.stage.addChild(this.sprite);
 
@@ -52,15 +52,19 @@ export default class Item {
 
   // I should really be currying this junk
   set x(value) {
+    if (!this.sprite) return false;
     this.sprite.position.x = value;
   }
   set y(value) {
+    if (!this.sprite) return false;
     this.sprite.position.y = value;
   }
   get x() {
+    if (!this.sprite) return false;
     return this.sprite.position.x;
   }
   get y() {
+    if (!this.sprite) return false;
     return this.sprite.position.y;
   }
 
