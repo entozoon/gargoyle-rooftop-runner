@@ -143,7 +143,7 @@ export class BuildingCollection {
     this.items.update(dt);
 
     this.collection.forEach((building, i) => {
-      building.speed = this.hero.velocity.x;
+      // building.speed = this.hero.velocity.x;
       building.update(dt);
 
       // Garbage collection
