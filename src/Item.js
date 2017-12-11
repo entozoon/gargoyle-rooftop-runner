@@ -4,7 +4,7 @@ let textures = {}, // abstract this later
   itemAssetsLoaded = false;
 Pixi.engine.loader
   .add("star", "./assets/items/star/star.json")
-  .add("somethingElse", "./assets/items/star/star.json")
+  // .add("somethingElse", "./assets/items/something-else/something-else.json")
   .load(onItemAssetsLoaded);
 
 function onItemAssetsLoaded(loader, resources) {
@@ -12,7 +12,7 @@ function onItemAssetsLoaded(loader, resources) {
   // console.log(Pixi.engine.utils.TextureCache);
   itemAssetsLoaded = true;
   textures.star = resources.star.textures;
-  textures.somethingElse = resources.somethingElse.textures;
+  // textures.somethingElse = resources.somethingElse.textures;
 }
 
 export default class Item {

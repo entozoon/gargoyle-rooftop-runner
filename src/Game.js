@@ -26,7 +26,7 @@ export default class Game extends Component {
         align: "left"
       }
     );
-    this.jumpTest.position = { x: 60, y: 30 };
+    this.jumpTest.position = { x: 60, y: 27 };
     Pixi.app.stage.addChild(this.jumpTest);
 
     this.hudScore = new Pixi.engine.Text("Score: ", {
