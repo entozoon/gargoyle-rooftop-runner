@@ -1,15 +1,25 @@
 import Pixi from "./PixiCreate";
 
-// MAYBE DON'T USE THIS ACTUALLY
-Pixi.engine.loader.add("./assets/items/star/star.json").load(onAssetsLoaded);
+let itemAssetsLoaded = false;
+Pixi.engine.loader
+  .add("star", "./assets/items/star/star.json")
+  .load(onItemAssetsLoaded);
 
-function onAssetsLoaded() {
-  console.log("WHUH ERGH");
-  console.log(Pixi.engine.Texture.fromFrame("star1.png"));
+let texture1, texture2;
+function onItemAssetsLoaded(loader, resources) {
+  itemAssetsLoaded = true;
+  console.log(resources);
+  console.log(Pixi.engine.utils.TextureCache);
+  texture1 = resources.star.textures[0];
+  texture2 = resources.star.textures[1];
+
+  // console.log("WHUH ERGH");
+  // console.log(Pixi.engine.Texture.fromFrame("star1.png"));
 }
 
 export default class Item {
   constructor(options) {
+    // if (!this.assetsLoaded) return;
     this.hero = options.hero;
 
     // console.log(Pixi.engine.Texture.fromFrame("star1.png"));
@@ -23,9 +33,12 @@ export default class Item {
       }
     }
 
-    this.texture = new Pixi.engine.Texture.fromImage(
-      "./assets/items/" + options.type + ".png"
-    );
+    // this.texture = new Pixi.engine.Texture.fromImage(
+    //   "./assets/items/" + options.type + ".png"
+    // );
+    this.texture = texture1;
+    console.log(this.texture);
+
     this.sprite = new Pixi.engine.Sprite(this.texture);
     this.x = Math.round(options.x);
     this.y = Math.round(options.y);
