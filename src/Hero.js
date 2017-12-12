@@ -49,16 +49,22 @@ export class Hero {
       if (e.keyCode === 32) {
         e.preventDefault(); // brutal but, stop paging
         if (!this.jumpingPressed) {
-          // this.jumping = true;
           this.jumpingPressed = true;
         }
       }
     });
+    document.addEventListener("touchstart", () => {
+      if (!this.jumpingPressed) {
+        this.jumpingPressed = true;
+      }
+    });
     document.addEventListener("keyup", e => {
       if (e.keyCode === 32) {
-        // this.jumping = false;
         this.jumpingPressed = false;
       }
+    });
+    document.addEventListener("touchend", () => {
+      this.jumpingPressed = false;
     });
   }
 

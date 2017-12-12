@@ -4,6 +4,7 @@ body {
   background: black;
 }
 canvas {
+  max-width: 100%;
   // border-bottom: 2px solid #232323;
   box-shadow: 0 0 30px 1px #232323;
 }

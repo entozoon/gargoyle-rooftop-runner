@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <title>Gargoyle Runner</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root"></div>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta id="viewport" name="viewport">
+
+  <script type="text/javascript">
+    // Cheeky viewport resizer for smaller devices
+    var viewportResize = (function myself() {
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
+        var minWidth = 1600,
+          minHeight = 800,
+          ratioH = window.screen.width / minWidth,
+          // Rooouugghly scale it such that it allows for the address bar
+          ratioV = (window.screen.height - 80) / minHeight,
+          ratio = ratioV < ratioH ? ratioV : ratioH;
+
+        // Screen width isn't quite what you'd expect. Viewport only applicable for mobiles anyway
+        if (window.screen.width < minWidth) {
+          document.getElementById('viewport').setAttribute('content', 'initial-scale=' + ratio + ', maximum-scale=' + ratio + ', minimum-scale=' + ratio + ', user-scalable=no, width=' + minWidth);
+        } else {
+          document.getElementById('viewport').setAttribute('content', 'initial-scale=1.0, maximum-scale=1, minimum-scale=1.0, user-scalable=yes, width=' + window.screen.width);
+        }
+      }
+      return myself
+    }());
+
+    window.addEventListener('resize', function () {
+      viewportResize();
+    });
+  </script>
+
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <title>Gargoyle Runner</title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root"></div>
+</body>
+
 </html>
