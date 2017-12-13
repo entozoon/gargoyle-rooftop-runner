@@ -12,6 +12,7 @@ export class BuildingCollection {
     this.originY = Pixi.height * 0.75;
     this.offsetYLast = 200;
     this.maxOffsetY = 200;
+    this.itemFrequency = 0.75;
     this.createPlatform();
     this.items = new Items({
       hero: this.hero
@@ -135,10 +136,13 @@ export class BuildingCollection {
 
     if (this.shouldCreateNewBuilding()) {
       let building = this.createNewBuilding(this.hero);
-      this.items.create({
-        hero: this.hero,
-        building: building
-      });
+
+      if (Math.random() < this.itemFrequency) {
+        this.items.create({
+          hero: this.hero,
+          building: building
+        });
+      }
     }
 
     this.items.update(dt);
@@ -149,9 +153,11 @@ export class BuildingCollection {
     });
 
     // Garbage collection
+    // This behaviour could no doubt be shared with buildings, items, etc!
     // Optimised - this can afford to run much less frequently, like every 20 frames
     if (
       this.ticker % 20 === 0 &&
+      this.collection.length &&
       this.shouldDeleteBuilding(this.collection[0])
     ) {
       this.deleteBuilding(this.collection[0], 0);

@@ -27,6 +27,7 @@ export default class Item {
 
     this.x = Math.round(options.x);
     this.y = Math.round(options.y);
+    this.width = 50;
 
     // Animated sprite
     if (itemAssetsLoaded) {
@@ -39,7 +40,7 @@ export default class Item {
 
       this.sprite.x = Math.round(options.x);
       this.sprite.y = Math.round(options.y);
-      this.sprite.anchor.set(0.5);
+      this.sprite.anchor.set(0);
       this.sprite.animationSpeed = 0.1;
 
       this.sprite.play();
@@ -67,8 +68,12 @@ export default class Item {
     if (!this.sprite) return false;
     return this.sprite.position.y;
   }
+  destroy() {
+    this.sprite.destroy();
+  }
 
   update(dt) {
-    this.x -= Math.round(this.hero.velocity.x * dt);
+    // this.x -= Math.round(this.hero.velocity.x * dt);
+    this.x -= this.hero.velocity.x * dt;
   }
 }
