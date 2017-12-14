@@ -17,21 +17,22 @@ export class HeroSpriteTest {
     this.x = Pixi.width / 2;
     this.y = Pixi.height / 2;
 
-    // setTimeout(() => {
-    //   this.sprite.pose("run");
-    // }, 1000);
-
-    console.log(Poses);
+    // this.sprite.pose("run"); // < e.g.
 
     this.posesTicker = 0;
+    this.cyclePose();
     setInterval(() => {
-      // this.sprite.texture = this.frames["run"];
-      console.log(Poses[this.posesTicker].name);
-
-      this.sprite.pose(Poses[this.posesTicker].name);
-
-      this.posesTicker =
-        this.posesTicker >= Poses.length - 1 ? 0 : ++this.posesTicker;
+      this.cyclePose();
     }, 3000);
+  }
+
+  cyclePose() {
+    // this.sprite.texture = this.frames["run"];
+    console.log("HeroSpriteTest: " + Poses[this.posesTicker].name);
+
+    this.sprite.pose(Poses[this.posesTicker].name);
+
+    this.posesTicker =
+      this.posesTicker >= Poses.length - 1 ? 0 : ++this.posesTicker;
   }
 }

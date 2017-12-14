@@ -18,7 +18,9 @@ export default class Sprite {
       return pose;
     });
 
-    this.pose(); // init
+    // Init - show first frame
+    this.sprite = new Pixi.engine.Sprite(this.poses[0].frames[0].texture);
+    this.sprite.scale = { x: 2, y: 2 };
 
     Pixi.app.stage.addChild(this.sprite);
   }
@@ -41,12 +43,6 @@ export default class Sprite {
   }
 
   pose(pose) {
-    // If undefined pose, show first frame
-    if (typeof pose === "undefined") {
-      this.sprite = new Pixi.engine.Sprite(this.poses[0].frames[0].texture);
-      return;
-    }
-
     // First frame
     let thisPose = this.getPose(pose);
     this.sprite.texture = thisPose.frames[0].texture;

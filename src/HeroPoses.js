@@ -1,37 +1,38 @@
 module.exports = [
   {
     name: "run",
-    interval: 100,
+    interval: 400,
     frames: [
       {
-        x: 0,
-        y: 0,
-        width: 100,
-        height: 100
+        x: 236,
+        y: 8,
+        width: 28,
+        height: 44
       },
       {
-        x: 100,
-        y: 0,
-        width: 100,
-        height: 100
+        x: 296,
+        y: 8,
+        width: 25,
+        height: 44
       }
     ]
   },
   {
     name: "jump",
-    interval: 500,
+    interval: 400,
     frames: [
       {
-        x: 150,
-        y: 0,
-        width: 100,
-        height: 100
+        x: 95,
+        y: 89,
+        width: 42,
+        height: 51
       },
       {
-        x: 200,
-        y: 0,
-        width: 100,
-        height: 100
+        x: 183,
+        y: 58,
+        width: 45,
+        height: 62
+        // offsetX ?? or maybe anchor .5 would be a better way to go...
       }
     ]
   }
