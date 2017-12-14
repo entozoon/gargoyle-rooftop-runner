@@ -31,15 +31,18 @@ export default class Items {
   // Too hungover to do this betterer
   spreadPositionFunctions(spread) {
     let positions = [],
-      spacing = 50,
+      spacing = 75,
       maxHeight = Pixi.height / 2; // max jump height or whatever
 
     // Maybe scrap horizontal entirely? Arc will conjure an approximation of it anyway
     if (spread === "horizontal") {
       return building => {
-        let width = (building.width - spacing * 2) * Math.random();
-        let xStart =
-          building.x + spacing + (building.width - width) * Math.random();
+        // let width = (building.width - spacing * 2) * Math.random();
+        // let xStart = building.x + spacing + (building.width - width) * Math.random();
+        // Simplifying: simple elegance
+        let width = building.width - spacing * 2;
+        let xStart = building.x + spacing;
+
         let y = building.y - 50;
 
         for (let x = xStart; x < xStart + width; x += spacing) {
@@ -68,9 +71,12 @@ export default class Items {
     } else if (spread === "arc") {
       return building => {
         // Start point and width similar to horizontal spready
-        let width = (building.width - spacing * 2) * Math.random();
-        let xStart =
-          building.x + spacing + (building.width - width) * Math.random();
+        // let width = (building.width - spacing * 2) * Math.random();
+        // let xStart = building.x + spacing + (building.width - width) * Math.random();
+        // Simplify: fill the whole width
+        let width = building.width - spacing * 2;
+        let xStart = building.x + spacing;
+
         // Sine wave up and down; simples!
         let yScale = maxHeight * Math.random();
 
