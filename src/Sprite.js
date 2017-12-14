@@ -1,6 +1,7 @@
 import Pixi from "./PixiCreate";
 
-export class Sprite {
+// export class Sprite {
+export default class Sprite {
   constructor(options) {
     this.spriteSheetTexture = new Pixi.engine.Texture.fromImage(
       options.spriteSheet
@@ -20,22 +21,19 @@ export class Sprite {
     this.pose(); // init
 
     Pixi.app.stage.addChild(this.sprite);
+  }
 
-    // Test mode
-    if (options.test) {
-      this.x = Pixi.width / 2;
-      this.y = Pixi.height / 2;
-
-      setTimeout(() => {
-        // this.sprite.texture = this.frames["run"];
-        this.pose("run");
-      }, 1000);
-
-      setTimeout(() => {
-        // this.sprite.texture = this.frames["run"];
-        this.pose("jump");
-      }, 3000);
-    }
+  get position() {
+    return this.sprite.position;
+  }
+  set position(position) {
+    this.sprite.position = position;
+  }
+  get width() {
+    return this.sprite.width;
+  }
+  get height() {
+    return this.sprite.height;
   }
 
   getPose(pose) {
