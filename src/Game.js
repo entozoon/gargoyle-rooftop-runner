@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Pixi from "./PixiCreate";
 import { Hero } from "./Hero";
-import { Sprite } from "./Sprite";
 import { HeroSpriteTest } from "./HeroSpriteTest";
 import { Background } from "./Background";
 import { BuildingCollection } from "./BuildingCollection";

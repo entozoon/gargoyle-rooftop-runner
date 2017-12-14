@@ -8,6 +8,8 @@ export default class Sprite {
     ).baseTexture;
 
     this.poses = options.poses;
+    // this.hero = options.hero;
+    this.velocity = options.velocity || { x: 0, y: 0 };
 
     // Create texture for each frame
     this.poses = this.poses.map(pose => {
@@ -18,9 +20,17 @@ export default class Sprite {
       return pose;
     });
 
+    // Optimisation, push them all through Pixi.engine.loader, like item assets did. Not sure how worthwhile it is in reality
+
     // Init - show first frame
     this.sprite = new Pixi.engine.Sprite(this.poses[0].frames[0].texture);
     this.sprite.scale = { x: 2, y: 2 };
+
+    // I should have done this from the start,
+    // maybe avoiding having to offset sprites at all:
+    this.sprite.anchor = { x: 0.5, y: 0.5 };
+
+    this.spriteInterval;
 
     Pixi.app.stage.addChild(this.sprite);
   }
@@ -42,21 +52,44 @@ export default class Sprite {
     return this.poses.filter(_ => _.name === pose)[0];
   }
 
-  pose(pose) {
+  get pose() {
+    return this._pose;
+  }
+
+  set pose(pose) {
     // First frame
     let thisPose = this.getPose(pose);
+
+    // Only bother ourselves to fire up the animation if there's a legit change in pose
+    if (pose === this.pose) {
+      return;
+    }
+
+    this._pose = pose; // e.g. 'run'
+
+    // frame 0
     this.sprite.texture = thisPose.frames[0].texture;
 
-    // Set the animation going at the desired interval speed
-    this.frameTicker = 0;
-    clearInterval(this.spriteInterval);
-    this.spriteInterval = setInterval(() => {
-      // Set the frame texture
-      this.sprite.texture = thisPose.frames[this.frameTicker].texture;
+    // Filthy speeding up for hero walk/run/fly animation
+    if (this.pose === "walk") {
+      thisPose.interval -= this.velocity.x * 150;
+      if (thisPose.interval < 100) thisPose.interval = 100;
+    }
 
-      this.frameTicker =
-        this.frameTicker >= thisPose.frames.length - 1 ? 0 : ++this.frameTicker;
-    }, thisPose.interval);
+    // Set the animation going at the desired interval speed
+    clearInterval(this.spriteInterval);
+    if (thisPose.frames.length > 1) {
+      this.frameTicker = 1;
+      this.spriteInterval = setInterval(() => {
+        // Set the frame texture
+        this.sprite.texture = thisPose.frames[this.frameTicker].texture;
+
+        this.frameTicker =
+          this.frameTicker >= thisPose.frames.length - 1
+            ? 0
+            : ++this.frameTicker;
+      }, thisPose.interval);
+    }
   }
 
   set y(value) {

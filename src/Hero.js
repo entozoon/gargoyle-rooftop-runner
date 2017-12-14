@@ -28,8 +28,14 @@ export class Hero {
 
     this.sprite = new Sprite({
       spriteSheet: "./assets/hero.png",
-      poses: Poses
+      poses: Poses,
+      // hero: this
+      velocity: this.velocity
     });
+
+    // Independent of sprite dimensions!
+    this.width = 36;
+    this.height = 43;
 
     // this.spriteSize = 100;
 
@@ -94,11 +100,8 @@ export class Hero {
   get x() {
     return this.sprite.position.x;
   }
-  get width() {
-    return this.sprite.width;
-  }
-  get height() {
-    return this.sprite.height;
+  getVelocity() {
+    return this._velocity;
   }
 
   get dead() {
@@ -117,15 +120,15 @@ export class Hero {
   }
 
   pose() {
-    // if (this.dead) {
-    //   this._pose = "dead";
-    // } else if (this.velocity.y < 0) {
-    //   this._pose = "jump";
-    // } else if (this.onFloor) {
-    //   this._pose = "run";
-    // } else {
-    //   this._pose = "fall";
-    // }
+    if (this.dead) {
+      this.sprite.pose = "dead";
+    } else if (this.velocity.y < 0) {
+      this.sprite.pose = "jump";
+    } else if (this.onFloor) {
+      this.sprite.pose = "walk";
+    } else {
+      this.sprite.pose = "fall";
+    }
     // this.sprite.texture = this.spriteTextures[this._pose];
   }
 

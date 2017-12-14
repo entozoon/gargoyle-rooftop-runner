@@ -28,9 +28,9 @@ export class HeroSpriteTest {
 
   cyclePose() {
     // this.sprite.texture = this.frames["run"];
-    console.log("HeroSpriteTest: " + Poses[this.posesTicker].name);
+    // console.log("HeroSpriteTest: " + Poses[this.posesTicker].name);
 
-    this.sprite.pose(Poses[this.posesTicker].name);
+    this.sprite.pose = Poses[this.posesTicker].name;
 
     this.posesTicker =
       this.posesTicker >= Poses.length - 1 ? 0 : ++this.posesTicker;
