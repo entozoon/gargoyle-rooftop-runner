@@ -1,18 +1,7 @@
 import Pixi from "./PixiCreate";
-import Mover from "./behaviours/Mover";
 
 export default class Building {
   constructor(options) {
-    // holy SHIT, this was a guess and it totally works:
-    // const dwa = Object.assign(this, Mover());
-    let mover = new Mover();
-    mover.setParent(this);
-    const dwa = Object.assign(this, mover);
-
-    this.WAKEUP = "wake uuuuuuuup";
-    this.dwa();
-    dwa.dwa();
-
     this.hero = options.hero;
 
     // Texture is just the image data, sprite is the object but TilingSprite is ronseal
@@ -25,21 +14,27 @@ export default class Building {
     this.sprite.anchor.x = 0;
     this.sprite.anchor.y = 0;
     this.offsetY = options.offsetY || 0;
-    this.x = options.x || Pixi.width;
-    this.y = Math.round(options.y);
 
     this.sprite.scale = { x: 1, y: 1 };
-
-    if (this.y > Pixi.height - 50) this.y = Pixi.height - 50;
 
     // HIT, probably won't use this.. just.. do it manual styles.
     // this.sprite.hitArea = new Pixi.engine.Rectangle(0, 0, 100, 100);
 
     Pixi.app.stage.addChild(this.sprite);
+
+    this.x = options.x || Pixi.width;
+    this.y = Math.round(options.y);
+    if (this.y > Pixi.height - 50) this.y = Pixi.height - 50;
   }
 
   // I should really be currying this junk
 
+  set x(value) {
+    this.sprite.position.x = value;
+  }
+  get x() {
+    return this.sprite.position.x;
+  }
   set y(value) {
     this.sprite.position.y = value;
   }
