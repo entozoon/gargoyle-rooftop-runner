@@ -10,6 +10,7 @@ export default class Sprite {
     this.poses = options.poses;
     // this.hero = options.hero;
     this.velocity = options.velocity || { x: 0, y: 0 };
+    this.adrenaline = 0;
 
     // Create texture for each frame
     this.poses = this.poses.map(pose => {
@@ -47,20 +48,19 @@ export default class Sprite {
   get height() {
     return this.sprite.height;
   }
-
-  getPose(pose) {
+  getPoseFromPoses(pose) {
     return this.poses.filter(_ => _.name === pose)[0];
   }
-
   get pose() {
     return this._pose;
   }
 
   set pose(pose) {
     // First frame
-    let thisPose = this.getPose(pose);
+    let thisPose = this.getPoseFromPoses(pose);
 
-    // Only bother ourselves to fire up the animation if there's a legit change in pose
+    // Only bother ourselves to fire up the animation if there's a legit change in pose.
+    // Could also update for adrenaline change but that'd be madness
     if (pose === this.pose) {
       return;
     }
@@ -70,11 +70,17 @@ export default class Sprite {
     // frame 0
     this.sprite.texture = thisPose.frames[0].texture;
 
-    // Filthy speeding up for hero walk/run/fly animation
-    if (this.pose === "walk") {
-      thisPose.interval -= this.velocity.x * 150;
-      if (thisPose.interval < 100) thisPose.interval = 100;
-    }
+    // Pump adrenaline into the interval time
+    let interval = this.adrenaline
+      ? thisPose.interval - this.adrenaline
+      : thisPose.interval;
+
+    // if (this.pose === "fly") {
+    //   console.log(this.adrenaline);
+    //   console.log(interval);
+    //   console.log("");
+    // }
+    if (interval < 100) interval = 100;
 
     // Set the animation going at the desired interval speed
     clearInterval(this.spriteInterval);
@@ -88,7 +94,7 @@ export default class Sprite {
           this.frameTicker >= thisPose.frames.length - 1
             ? 0
             : ++this.frameTicker;
-      }, thisPose.interval);
+      }, interval);
     }
   }
 

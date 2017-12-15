@@ -10,12 +10,12 @@ export class HeroSpriteTest {
       poses: Poses
     });
     this.sprite.position = {
-      x: Pixi.width / 2,
-      y: Pixi.height / 2
+      x: Pixi.width - 100,
+      y: 100
     };
 
-    this.x = Pixi.width / 2;
-    this.y = Pixi.height / 2;
+    // this.x = Pixi.width - 200;
+    // this.y = Pixi.height - 200;
 
     // this.sprite.pose("run"); // < e.g.
 

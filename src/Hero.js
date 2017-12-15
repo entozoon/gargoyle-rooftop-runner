@@ -7,8 +7,10 @@ export class Hero {
   constructor() {
     this.gravity = 0.0021; //0.035;
     this.jumpVelocity = -1.4;
-    this.velocity = { y: 0, x: 0.2 };
+    this.velocity = { y: 0, x: 0.1 };
     this.floorAcceleration = 0.0001;
+    // this.velocity = { y: 0, x: 0 }; // halt
+    // this.floorAcceleration = 0.0; // halt
     this.maxVelocity = 2;
     this.score = 0;
     this.scoringFactor = 0.01;
@@ -125,7 +127,13 @@ export class Hero {
     } else if (this.velocity.y < 0) {
       this.sprite.pose = "jump";
     } else if (this.onFloor) {
-      this.sprite.pose = "walk";
+      if (this.velocity.x < 1) {
+        this.sprite.adrenaline = this.velocity.x * 150;
+        this.sprite.pose = "walk";
+      } else {
+        this.sprite.adrenaline = this.velocity.x * 150;
+        this.sprite.pose = "fly";
+      }
     } else {
       this.sprite.pose = "fall";
     }
