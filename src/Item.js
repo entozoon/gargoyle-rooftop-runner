@@ -80,6 +80,10 @@ export default class Item {
     // grah.fuckSake = "aww yeah kinda";
     // console.log(grah.fuckSake);
 
+    // FINN TOTALLY EXPLAINED IT
+    // https://codepen.io/pen/?editors=0011
+    // object.assign specifically _doesn't_ copy getters and setters. object.extend eventually will but doesn't exist yet. there's a proto function for it though (maybe could be written better but yeah ^)
+
     this.hero = options.hero;
 
     // Typical flat sprite
