@@ -29,27 +29,56 @@ function onItemAssetsLoaded(loader, resources) {
 //   set: {}
 // });
 
-var obj = {};
+// var obj = {};
 
-Object.defineProperty(obj, "fuckSake", {
-  get: function() {
-    return this._fuckSake + " yasssss?";
-  },
-  set: function(value) {
-    this._fuckSake = value;
-  }
-});
+// Object.defineProperty(obj, "fuckSake", {
+//   get: function() {
+//     return this._fuckSake + " yasssss?";
+//   },
+//   set: function(value) {
+//     this._fuckSake = value;
+//   }
+// });
+
+var source = {
+  get prop() {},
+  set prop(v) {}
+};
+console.log(
+  "descriptor on source",
+  Object.getOwnPropertyDescriptor(source, "prop")
+);
+var target = Object.assign({}, source);
+console.log(
+  "descriptor on target",
+  Object.getOwnPropertyDescriptor(target, "prop")
+);
+
+function Class() {
+  Object.defineProperty(this, "prop", {
+    get() {
+      console.log("call get");
+    },
+    set(v) {
+      console.log("call set");
+    }
+  });
+}
+var c = new Class();
+console.log(c.prop); // => 'call get', undefined
+c.prop = "change"; // => 'call set'
+console.log(c.prop); // => 'call get', undefined
 
 export default class Item {
   constructor(options) {
     // holy SHIT, this was a guess and it totally works:
-    this.mover = new Mover();
-    this.mover.setParent(this);
-    let grah = Object.assign(this, this.mover, obj);
-    this.fuckSake = "aww yeah kinda";
-    console.log(this.fuckSake);
-    grah.fuckSake = "aww yeah kinda";
-    console.log(grah.fuckSake);
+    // this.mover = new Mover();
+    // this.mover.setParent(this);
+    // let grah = Object.assign(this, this.mover, obj);
+    // this.fuckSake = "aww yeah kinda";
+    // console.log(this.fuckSake);
+    // grah.fuckSake = "aww yeah kinda";
+    // console.log(grah.fuckSake);
 
     this.hero = options.hero;
 

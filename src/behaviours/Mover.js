@@ -13,6 +13,7 @@ export default () => {
     //   console.log(this.parent);
     //   console.log(this.parent.WAKEUP);
     // }
+
     setX: x => {
       console.log(2);
       console.log(this.parent);
