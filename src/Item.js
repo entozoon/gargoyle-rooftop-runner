@@ -16,12 +16,40 @@ function onItemAssetsLoaded(loader, resources) {
   // textures.somethingElse = resources.somethingElse.textures;
 }
 
+// var obj = {
+//   _fuckSake: "init",
+//   set fuckSake(value) {
+//     this._fuckSake = value;
+//   },
+//   get fuckSake() {
+//     return this._fuckSake + " yasssssss";
+//   }
+// };
+// Object.defineProperties(obj, {
+//   set: {}
+// });
+
+var obj = {};
+
+Object.defineProperty(obj, "fuckSake", {
+  get: function() {
+    return this._fuckSake + " yasssss?";
+  },
+  set: function(value) {
+    this._fuckSake = value;
+  }
+});
+
 export default class Item {
   constructor(options) {
     // holy SHIT, this was a guess and it totally works:
     this.mover = new Mover();
     this.mover.setParent(this);
-    Object.assign(this, this.mover);
+    let grah = Object.assign(this, this.mover, obj);
+    this.fuckSake = "aww yeah kinda";
+    console.log(this.fuckSake);
+    grah.fuckSake = "aww yeah kinda";
+    console.log(grah.fuckSake);
 
     this.hero = options.hero;
 
@@ -32,12 +60,9 @@ export default class Item {
     // this.sprite.scale = { x: 1, y: 1 };
 
     // this.x = Math.round(options.x);
-    // this.y = Math.round(options.y);
-    console.log(1);
-
+    this.y = Math.round(options.y);
     this.setX(Math.round(options.x));
-    console.log(3);
-    this.setY(Math.round(options.y));
+    // this.setY(Math.round(options.y));
     this.width = 50;
 
     // Animated sprite
