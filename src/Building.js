@@ -1,4 +1,5 @@
 import Pixi from "./PixiCreate";
+import Mover from "./behaviours/Mover";
 
 export default class Building {
   constructor(options) {
@@ -25,6 +26,11 @@ export default class Building {
     // this.sprite.hitArea = new Pixi.engine.Rectangle(0, 0, 100, 100);
 
     Pixi.app.stage.addChild(this.sprite);
+
+    // holy SHIT, this was a guess and it totally works:
+    Object.assign(this, Mover());
+
+    // this.bark();
   }
 
   // I should really be currying this junk
