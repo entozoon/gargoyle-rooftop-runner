@@ -40,34 +40,71 @@ function onItemAssetsLoaded(loader, resources) {
 //   }
 // });
 
-var source = {
-  get prop() {},
-  set prop(v) {}
-};
-console.log(
-  "descriptor on source",
-  Object.getOwnPropertyDescriptor(source, "prop")
-);
-var target = Object.assign({}, source);
-console.log(
-  "descriptor on target",
-  Object.getOwnPropertyDescriptor(target, "prop")
-);
+// var source = {
+//   get prop() {},
+//   set prop(v) {}
+// };
+// console.log(
+//   "descriptor on source",
+//   Object.getOwnPropertyDescriptor(source, "prop")
+// );
+// var target = Object.assign({}, source);
+// console.log(
+//   "descriptor on target",
+//   Object.getOwnPropertyDescriptor(target, "prop")
+// );
 
-function Class() {
-  Object.defineProperty(this, "prop", {
-    get() {
-      console.log("call get");
-    },
-    set(v) {
-      console.log("call set");
-    }
-  });
-}
-var c = new Class();
-console.log(c.prop); // => 'call get', undefined
-c.prop = "change"; // => 'call set'
-console.log(c.prop); // => 'call get', undefined
+// function Class() {
+//   Object.defineProperty(this, "prop", {
+//     get() {
+//       console.log("call get");
+//     },
+//     set(v) {
+//       console.log("call set");
+//     }
+//   });
+// }
+// var c = new Class();
+// console.log(c.prop); // => 'call get', undefined
+// c.prop = "change"; // => 'call set'
+// console.log(c.prop); // => 'call get', undefined
+
+// console.log("---------------");
+
+// // Getter / setter behaviour object
+// const behaviour = {
+//   _magicString: "init",
+//   set magicString(value) {
+//     this._magicString = value;
+//   },
+//   get magicString() {
+//     return this._magicString + " yasssss it was!";
+//   }
+// };
+
+// Take all the functions in the exported class and jaff them into this
+const extend = (a, b) => {
+  console.log(b);
+
+  // Getting somewhere!
+  console.log(Object.getOwnPropertyNames(b.prototype));
+
+  for (var i in b) {
+    Object.defineProperties(a, Object.getOwnPropertyDescriptors(b));
+  }
+};
+
+// class Thing {
+//   constructor() {
+//     // Give it the getter/setter behaviours
+//     extend(this, behaviour);
+//   }
+// }
+// const thing = new Thing();
+
+// console.log(thing.magicString);
+// thing.magicString = "this string should be appended..";
+// console.log(thing.magicString);
 
 export default class Item {
   constructor(options) {
@@ -83,6 +120,13 @@ export default class Item {
     // FINN TOTALLY EXPLAINED IT
     // https://codepen.io/anon/pen/JMYGrq?editors=0012
     // object.assign specifically _doesn't_ copy getters and setters. object.extend eventually will but doesn't exist yet. there's a proto function for it though (maybe could be written better but yeah ^)
+
+    console.log("----------");
+    // console.log(Mover);
+    // Object.assign(this, Mover);
+    extend(this, Mover);
+    // console.log(this);
+    console.log(this.x);
 
     this.hero = options.hero;
 
