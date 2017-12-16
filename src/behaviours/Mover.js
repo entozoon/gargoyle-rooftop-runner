@@ -1,31 +1,29 @@
-// const Mover = {
-//   get x() {
-//     return "right";
-//   }
-// };
-
 // class Mover {
+//   constructor(name) {
+//     this._x;
+//   }
+//   set x(x) {
+//     this._x = x + " awww yeah";
+//   }
 //   get x() {
-//     return "hello";
+//     return this._x + " half working";
 //   }
 // }
-// export default new Mover();
+// export default Mover;
 
-export default () => {
-  return {
-    get x() {
-      return "hello";
-    }
-  };
-};
+export default class Mover {
+  constructor() {
+    // super();
+    this._x = "pre";
+  }
+  set x(value) {
+    this._x = value;
+  }
 
-// export default () => {
-//   Object.defineProperty(this, "prop", {
-//     get() {
-//       return "hey";
-//     }
-//   });
-// };
+  get x() {
+    return this._x + " yasssss it was!";
+  }
+}
 
 // export default () => {
 //   return {
