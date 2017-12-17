@@ -1,6 +1,6 @@
 import Pixi from "./PixiCreate";
 
-import Mover from "./behaviours/Mover";
+import Movement from "./behaviours/Movement";
 
 let textures = {}, // abstract this later
   itemAssetsLoaded = false;
@@ -39,14 +39,6 @@ function extend(a, b) {
 }
 
 export default class Item {
-  set x(val) {
-    this.mover.x = val;
-  }
-
-  get x() {
-    return this.mover.x;
-  }
-
   constructor(options) {
     this.hero = options.hero;
 
@@ -71,98 +63,26 @@ export default class Item {
 
       this.sprite = new Pixi.engine.extras.AnimatedSprite(this.frames);
 
-      this.sprite.x = Math.round(options.x);
-      this.sprite.y = Math.round(options.y);
       this.sprite.anchor.set(0);
       this.sprite.animationSpeed = 0.1;
 
       this.sprite.play();
     }
 
-    this.mover = new Mover(this);
-    this.mover.init(this);
+    this.movement = new Movement();
+    this.movement.setParent(this);
 
-    // console.log(this.mover.test);
+    this.movement.x = Math.round(options.x);
+    this.movement.y = Math.round(options.y);
 
     Pixi.app.stage.addChild(this.sprite);
-
-    // console.log(this.x + ", " + this.y); // **
   }
 
-  // I should really be currying this junk
-  // set x(value) {
-  //   if (!this.sprite) return false;
-  //   this.sprite.position.x = value;
-  // }
-  // get x() {
-  //   if (!this.sprite) return false;
-  //   return this.sprite.position.x;
-  // }
-  set y(value) {
-    if (!this.sprite) return false;
-    this.sprite.position.y = value;
-  }
-  get y() {
-    if (!this.sprite) return false;
-    return this.sprite.position.y;
-  }
   destroy() {
     this.sprite.destroy();
   }
 
   update(dt) {
-    // this.x -= Math.round(this.hero.velocity.x * dt);
-    // this.x -= this.hero.velocity.x * dt;
-    this.mover.x -= this.hero.velocity.x * dt;
+    this.movement.x -= this.hero.velocity.x * dt;
   }
 }
-
-// module.exports = {
-//   Item
-// };
-
-// const Thingness = {
-//   set dwa(_) {
-//     this._dwa = _ + ".. set";
-//   },
-//   get dwa() {
-//     return this._dwa + " .. get";
-//   }
-// };
-
-// class Coolness {
-//   constructor() {
-//     console.log("yo");
-
-//     Object.defineProperty(this, "dwa", {
-//       get() {
-//         return this._dwa + " .. get";
-//       },
-//       set(_) {
-//         this._dwa = _ + ".. set";
-//       }
-//     });
-//   }
-// }
-
-// class Hipness {
-//   get x() {
-//     return "right";
-//     return this._dwa + " .. get";
-//   }
-//   set x(_) {
-//     this._dwa = _ + ".. set";
-//   }
-// }
-
-// // class Thing {
-// class Thing extends [Coolness, Hipness] {
-//   constructor() {
-//     super();
-//     // Object.assign(this, Coolness);
-//   }
-// }
-// let mcfly = new Thing();
-// mcfly.dwa = "come on";
-// console.log(mcfly.dwa);
-// console.log(mcfly.x);
