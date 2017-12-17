@@ -1,29 +1,24 @@
-// class Mover {
-//   constructor(name) {
-//     this._x;
-//   }
-//   set x(x) {
-//     this._x = x + " awww yeah";
-//   }
-//   get x() {
-//     return this._x + " half working";
-//   }
-// }
-// export default Mover;
-
-export default class Mover {
-  constructor() {
-    // super();
-    this._x = "pre";
-  }
-  set x(value) {
-    this._x = value;
-  }
-
-  get x() {
-    return this._x + " yasssss it was!";
-  }
-}
+export default parent => {
+  return {
+    init(parent) {
+      this.parent = parent;
+    },
+    set x(_) {
+      this._x = _;
+      this.parent.sprite.position.x = _;
+    },
+    get x() {
+      return this._x;
+    },
+    set y(_) {
+      this._y = _;
+      this.parent.sprite.position.y = _;
+    },
+    get y() {
+      return this._y;
+    }
+  };
+};
 
 // export default () => {
 //   return {

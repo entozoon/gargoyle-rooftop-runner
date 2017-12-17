@@ -38,7 +38,7 @@ function extend(a, b) {
   }
 }
 
-export default class Item extends Mover {
+export default class Item {
   set x(val) {
     this.mover.x = val;
   }
@@ -48,31 +48,6 @@ export default class Item extends Mover {
   }
 
   constructor(options) {
-    super();
-
-    this.mover = new Mover();
-    this.mover = new Mover();
-    this.mover = new Mover();
-    this.mover = new Mover();
-
-    this.x = 12;
-    this.sprite.position.x = 12;
-    this.mover.x = 12;
-
-    // FINN TOTALLY EXPLAINED IT
-    // https://codepen.io/anon/pen/JMYGrq?editors=0012
-    // object.assign specifically _doesn't_ copy getters and setters. object.extend eventually will but doesn't exist yet. there's a proto function for it though (maybe could be written better but yeah ^)
-    // extend(this, Mover);
-    // this.x = "SWEET BAAAABY SATAN";
-    // this.Mover.x = "subset.. ";
-    // console.log(this.Mover.x);
-
-    console.log(this.x);
-
-    this.x = "post";
-
-    console.log(this.x);
-
     this.hero = options.hero;
 
     // Typical flat sprite
@@ -82,8 +57,8 @@ export default class Item extends Mover {
     // this.sprite.scale = { x: 1, y: 1 };
 
     // this.x = Math.round(options.x);
-    this.y = Math.round(options.y);
-    this.setX(Math.round(options.x));
+    // this.y = Math.round(options.y);
+    // this.setX(Math.round(options.x));
     // this.setY(Math.round(options.y));
     this.width = 50;
 
@@ -103,6 +78,11 @@ export default class Item extends Mover {
 
       this.sprite.play();
     }
+
+    this.mover = new Mover(this);
+    this.mover.init(this);
+
+    // console.log(this.mover.test);
 
     Pixi.app.stage.addChild(this.sprite);
 
@@ -132,10 +112,57 @@ export default class Item extends Mover {
 
   update(dt) {
     // this.x -= Math.round(this.hero.velocity.x * dt);
-    this.x -= this.hero.velocity.x * dt;
+    // this.x -= this.hero.velocity.x * dt;
+    this.mover.x -= this.hero.velocity.x * dt;
   }
 }
 
 // module.exports = {
 //   Item
 // };
+
+// const Thingness = {
+//   set dwa(_) {
+//     this._dwa = _ + ".. set";
+//   },
+//   get dwa() {
+//     return this._dwa + " .. get";
+//   }
+// };
+
+// class Coolness {
+//   constructor() {
+//     console.log("yo");
+
+//     Object.defineProperty(this, "dwa", {
+//       get() {
+//         return this._dwa + " .. get";
+//       },
+//       set(_) {
+//         this._dwa = _ + ".. set";
+//       }
+//     });
+//   }
+// }
+
+// class Hipness {
+//   get x() {
+//     return "right";
+//     return this._dwa + " .. get";
+//   }
+//   set x(_) {
+//     this._dwa = _ + ".. set";
+//   }
+// }
+
+// // class Thing {
+// class Thing extends [Coolness, Hipness] {
+//   constructor() {
+//     super();
+//     // Object.assign(this, Coolness);
+//   }
+// }
+// let mcfly = new Thing();
+// mcfly.dwa = "come on";
+// console.log(mcfly.dwa);
+// console.log(mcfly.x);
