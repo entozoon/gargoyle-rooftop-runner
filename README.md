@@ -19,12 +19,15 @@
 - Obstacles
 - Leaderboard (maybe re-host to firebase)
 - Death gait
+- Proper sprite objects throughout
+- Item collection
 
 # Doing
-- Items
 - Graphics
+- Utility functions (esc/pause/..)
 
 # Done
+- Item creation
 - Sprite animation concept
 - Game engine
 - Building concept

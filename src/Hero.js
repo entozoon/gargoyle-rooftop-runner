@@ -11,7 +11,10 @@ export class Hero {
     this.floorAcceleration = 0.0001;
     // this.velocity = { y: 0, x: 0 }; // halt
     // this.floorAcceleration = 0.0; // halt
-    this.maxVelocity = 2;
+    this.velocityMax = {
+      x: 2,
+      y: 2.5
+    };
     this.score = 0;
     this.scoringFactor = 0.01;
     // Hurray for magic arbitrary numbers!
@@ -198,6 +201,12 @@ export class Hero {
     }
 
     this.velocity.y += this.gravity * dt; // * dt!?!? // maybe cap velocity (both dir) to prevent throttling problem too
+
+    // Cap velocity because.. infinite fall
+    if (Math.abs(this.velocity.y) > this.velocityMax.y) {
+      this.velocity.y = Math.sign(this.velocity.y) * this.velocityMax.y;
+    }
+
     this.y += this.velocity.y * dt;
   }
 
@@ -231,7 +240,7 @@ export class Hero {
   }
 
   acceleration(dt) {
-    if (this.onFloor && this.velocity.x < this.maxVelocity) {
+    if (this.onFloor && this.velocity.x < this.velocityMax.x) {
       this.velocity.x += this.floorAcceleration * dt;
     }
   }
