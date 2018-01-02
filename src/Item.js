@@ -1,5 +1,6 @@
 import Pixi from "./PixiCreate";
-
+import Sprite from "./Sprite";
+import Poses from "./ItemPoses";
 import Movement from "./behaviours/Movement";
 
 let textures = {}, // abstract this later
@@ -75,7 +76,14 @@ export default class Item {
     this.movement.x = Math.round(options.x);
     this.movement.y = Math.round(options.y);
 
-    Pixi.app.stage.addChild(this.sprite);
+    this.sprite = new Sprite({
+      spriteSheet: "./assets/spritesheet.png",
+      poses: Poses,
+      // hero: this
+      velocity: this.velocity
+    });
+
+    // Pixi.app.stage.addChild(this.sprite);
   }
 
   destroy() {

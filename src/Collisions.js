@@ -1,4 +1,4 @@
-import Pixi from './PixiCreate';
+import Pixi from "./PixiCreate";
 
 export default class Collisions {
   constructor(options) {
@@ -12,6 +12,10 @@ export default class Collisions {
 
   // Bounding boxy
   isUnderfoot(a, b) {
+    // Hack positions from movement through for a, as they'll be proper Movement objects but can't be arsed for buildings.
+    a.x = a.movement.x;
+    a.y = a.movement.y;
+
     // NB: a is always hero, as a lazy way to handle the bbox
     a.bboxFraction = this.bboxFraction;
     a.bboxInset = this.bboxInset(a);
