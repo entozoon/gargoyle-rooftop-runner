@@ -10,7 +10,7 @@ export default class Sprite {
     this.poses = options.poses;
     // this.hero = options.hero;
     this.velocity = options.velocity || { x: 0, y: 0 };
-    this.adrenaline = 0;
+    this.adrenaline = options.adrenaline || 0;
 
     // Create texture for each frame
     this.poses = this.poses.map(pose => {
@@ -80,7 +80,8 @@ export default class Sprite {
     //   console.log(interval);
     //   console.log("");
     // }
-    if (interval < 100) interval = 100;
+    // Limit this at instance level instead as, say stars, are mad fast
+    // if (interval < 100) interval = 100;
 
     // Set the animation going at the desired interval speed
     clearInterval(this.spriteInterval);

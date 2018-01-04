@@ -134,13 +134,13 @@ export class Hero {
     } else if (this.velocity.y < 0) {
       this.sprite.pose = "jump";
     } else if (this.onFloor) {
+      this.sprite.adrenaline = this.velocity.x * 150;
       if (this.velocity.x < 1) {
-        this.sprite.adrenaline = this.velocity.x * 150;
         this.sprite.pose = "walk";
       } else {
-        this.sprite.adrenaline = this.velocity.x * 150;
         this.sprite.pose = "fly";
       }
+      if (this.sprite.adrenaline > 300) this.sprite.adrenaline = 300;
     } else {
       this.sprite.pose = "fall";
     }

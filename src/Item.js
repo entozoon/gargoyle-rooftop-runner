@@ -55,33 +55,35 @@ export default class Item {
     // this.setY(Math.round(options.y));
     this.width = 50;
 
-    // Animated sprite
-    if (itemAssetsLoaded) {
-      this.frames = [];
-      for (let i in textures.star) {
-        this.frames.push(textures.star[i]);
-      }
+    // // Animated sprite
+    // if (itemAssetsLoaded) {
+    //   this.frames = [];
+    //   for (let i in textures.star) {
+    //     this.frames.push(textures.star[i]);
+    //   }
 
-      this.sprite = new Pixi.engine.extras.AnimatedSprite(this.frames);
+    //   this.sprite = new Pixi.engine.extras.AnimatedSprite(this.frames);
 
-      this.sprite.anchor.set(0);
-      this.sprite.animationSpeed = 0.1;
+    //   this.sprite.anchor.set(0);
+    //   this.sprite.animationSpeed = 0.1;
 
-      this.sprite.play();
-    }
+    //   this.sprite.play();
+    // }
 
+    this.sprite = new Sprite({
+      spriteSheet: "./assets/spritesheet.png",
+      poses: Poses,
+      // hero: this
+      velocity: this.velocity,
+      adrenaline: Math.floor(Math.random() * 50)
+    });
     this.movement = new Movement();
     this.movement.setParent(this);
 
     this.movement.x = Math.round(options.x);
     this.movement.y = Math.round(options.y);
 
-    this.sprite = new Sprite({
-      spriteSheet: "./assets/spritesheet.png",
-      poses: Poses,
-      // hero: this
-      velocity: this.velocity
-    });
+    this.sprite.pose = "default";
 
     // Pixi.app.stage.addChild(this.sprite);
   }

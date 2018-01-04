@@ -28,7 +28,6 @@ export default class Building {
   }
 
   // I should really be currying this junk
-
   set x(value) {
     this.sprite.position.x = value;
   }
