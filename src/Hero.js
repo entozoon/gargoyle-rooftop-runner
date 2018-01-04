@@ -2,6 +2,7 @@ import Pixi from "./PixiCreate";
 import Collisions from "./Collisions";
 import Sprite from "./Sprite";
 import Poses from "./HeroPoses";
+import Movement from "./behaviours/Movement";
 
 export class Hero {
   constructor() {
@@ -27,16 +28,19 @@ export class Hero {
     });
     this._jumping = false;
 
-    this.texture = new Pixi.engine.Texture.fromImage(
-      "./assets/hero.png"
-    ).baseTexture;
+    // this.texture = new Pixi.engine.Texture.fromImage(
+    //   "./assets/spritesheet.png"
+    // ).baseTexture;
 
     this.sprite = new Sprite({
-      spriteSheet: "./assets/hero.png",
+      spriteSheet: "./assets/spritesheet.png",
       poses: Poses,
       // hero: this
       velocity: this.velocity
     });
+
+    this.movement = new Movement();
+    this.movement.setParent(this);
 
     // Independent of sprite dimensions!
     this.width = 36;
@@ -59,8 +63,8 @@ export class Hero {
 
     // Pixi.app.stage.addChild(this.sprite);
 
-    this.x = Pixi.width * 0.1;
-    this.y = 0;
+    this.movement.x = Pixi.width * 0.1;
+    this.movement.y = 0;
 
     document.addEventListener("keydown", e => {
       // Space
@@ -93,18 +97,18 @@ export class Hero {
   get position() {
     return this.sprite.position;
   }
-  set y(value) {
-    this.sprite.position.y = value;
-  }
-  set x(value) {
-    this.sprite.position.x = value;
-  }
-  get y() {
-    return this.sprite.position.y;
-  }
-  get x() {
-    return this.sprite.position.x;
-  }
+  // set y(value) {
+  //   this.sprite.position.y = value;
+  // }
+  // set x(value) {
+  //   this.sprite.position.x = value;
+  // }
+  // get y() {
+  //   return this.sprite.position.y;
+  // }
+  // get x() {
+  //   return this.sprite.position.x;
+  // }
   getVelocity() {
     return this._velocity;
   }
@@ -130,13 +134,13 @@ export class Hero {
     } else if (this.velocity.y < 0) {
       this.sprite.pose = "jump";
     } else if (this.onFloor) {
+      this.sprite.adrenaline = this.velocity.x * 150;
       if (this.velocity.x < 1) {
-        this.sprite.adrenaline = this.velocity.x * 150;
         this.sprite.pose = "walk";
       } else {
-        this.sprite.adrenaline = this.velocity.x * 150;
         this.sprite.pose = "fly";
       }
+      if (this.sprite.adrenaline > 300) this.sprite.adrenaline = 300;
     } else {
       this.sprite.pose = "fall";
     }
@@ -207,7 +211,7 @@ export class Hero {
       this.velocity.y = Math.sign(this.velocity.y) * this.velocityMax.y;
     }
 
-    this.y += this.velocity.y * dt;
+    this.movement.y += this.velocity.y * dt;
   }
 
   // collisionHandler
@@ -223,7 +227,7 @@ export class Hero {
         this.onFloor = true;
         // If jaffing down to the floor, round into it
         if (this.velocity.y > 0) {
-          this.y = building.y - this.height;
+          this.movement.y = building.y - this.height;
         }
       } else {
         if (

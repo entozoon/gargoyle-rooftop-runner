@@ -6,7 +6,7 @@ export class HeroSpriteTest {
   constructor() {
     this.sprite = new Sprite({
       test: true,
-      spriteSheet: "./assets/hero.png",
+      spriteSheet: "./assets/spritesheet.png",
       poses: Poses
     });
     this.sprite.position = {
