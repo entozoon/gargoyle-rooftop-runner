@@ -1,6 +1,6 @@
 # Gargoyle Rooftop Runner
 
-# [Check it out!](https://entozoon.github.io/gargoyle-runner/)
+# [Check it out!](https://entozoon.itch.io/gargoyle-runner)
 
 ## Develop
 
@@ -43,9 +43,9 @@ KANBAN--->
 
 ## Future Ideas
 
-* Free running mode - run left and right, as fast as you like after a crazy
+- Free running mode - run left and right, as fast as you like after a crazy
   boost. Why not? I've built it with legit velocities..
-* Power ups in general
-* Kill teh enemiez, Mario style?
-* Difficulty modes - e.g. Hardest would use _almost_ only gapMax and widthMin
+- Power ups in general
+- Kill teh enemiez, Mario style?
+- Difficulty modes - e.g. Hardest would use _almost_ only gapMax and widthMin
   for buildings
