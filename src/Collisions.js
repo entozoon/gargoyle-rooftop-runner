@@ -21,7 +21,7 @@ export default class Collisions {
     a.bboxInset = this.bboxInset(a);
     return (
       // Almost down to floor
-      a.y + a.height * 1.1 > b.y && // < careful to avoid floor rounding errors
+      a.y + a.height * 1.5 > b.y && // < careful to avoid floor rounding errors
       // Not sunk into it, as that'll be a sidelong collision
       !(a.y + a.height * 0.25 > b.y) &&
       // Which I think is more stable than:
